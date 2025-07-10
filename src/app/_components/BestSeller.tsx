@@ -10,8 +10,11 @@ const BestSeller = async () => {
       sizes: true,
       extras: true,
     },
+    orderBy: {
+      order: "asc",
+    },
   });
-  console.log(result);
+
   const bestSeller = await result;
   return (
     <section className="section-gap">

@@ -3,9 +3,9 @@ import React from "react";
 import Image from "next/image";
 import { formatCurrency } from "@/lib/formatters";
 import { AddToCart } from "./AddToCart";
-import { Product } from "@prisma/client";
+import { ProductWithRelations } from "@/types/product";
 
-const CardPizaa = ({ Product }: { Product: Product }) => {
+const CardPizaa = ({ Product }: { Product: ProductWithRelations }) => {
   return (
     <div className="flex flex-col gap-2 relative w-full max-w-sm mx-auto bg-white p-4 rounded-lg shadow-md">
       <div className="relative w-full h-30 mb-2">

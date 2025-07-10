@@ -16,12 +16,9 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatCurrency } from "@/lib/formatters";
 import { Checkbox } from "../ui/checkbox";
-import { Extra, Product, Size } from "@prisma/client";
+import { ProductWithRelations } from "@/types/product";
+import { Extra, Size } from "@prisma/client";
 
-type ProductWithRelations = Product & {
-  sizes: Size[];
-  extras: Extra[];
-};
 export function AddToCart({ Product }: { Product: ProductWithRelations }) {
   return (
     <Dialog>
