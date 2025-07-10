@@ -108,13 +108,13 @@ export function AddToCart({
   );
 }
 
-function RadioGroupDemo({ sizes, price }: { sizes: any; price: number }) {
+function RadioGroupDemo({ sizes, price }: { sizes: { id: number; name: string; price: number }[]; price: number }) {
   return (
     <RadioGroup defaultValue="comfortable">
       {sizes.map((size) => (
         <div key={size.id} className="flex items-center gap-3 border-b pb-2">
-          <RadioGroupItem value={size.id} id={size.id} />
-          <Label htmlFor={size.id}>
+          <RadioGroupItem value={size.id.toString()} id={size.id.toString()} />
+          <Label htmlFor={size.id.toString()}>
             {size.name} - {formatCurrency(Number(price) + size.price)}
           </Label>
         </div>
@@ -122,13 +122,13 @@ function RadioGroupDemo({ sizes, price }: { sizes: any; price: number }) {
     </RadioGroup>
   );
 }
-function ExtraGroup({ Exters }: { Exters: any }) {
+function ExtraGroup({ Exters }: { Exters: { id: number; name: string; price: number }[] }) {
   return (
     <RadioGroup defaultValue="comfortable">
       {Exters.map((exter) => (
         <div key={exter.id} className="flex items-center gap-3 border-b pb-2 ">
-          <Checkbox value={exter.id} id={exter.id} />
-          <Label htmlFor={exter.id}>
+          <Checkbox value={exter.id.toString()} id={exter.id.toString()} />
+          <Label htmlFor={exter.id.toString()}>
             {exter.name} + {formatCurrency(exter.price)}
           </Label>
         </div>
