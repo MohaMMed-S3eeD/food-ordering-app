@@ -1,21 +1,12 @@
 import CardPizaa from "@/components/CardPizaa";
 import MainHeading from "@/components/Main_Heading";
-import { db } from "@/lib/prisma";
+import { getProducts } from "@/server/db/products";
 import React from "react";
 
 export const revalidate = 0;
 const BestSeller = async () => {
-  const result = await db.product.findMany({
-    include: {
-      sizes: true,
-      extras: true,
-    },
-    orderBy: {
-      order: "asc",
-    },
-  });
+  const bestSeller = await getProducts();
 
-  const bestSeller = await result;
   return (
     <section className="section-gap">
       <div className="container text-center mb-2">
