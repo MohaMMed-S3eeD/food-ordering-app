@@ -6,10 +6,12 @@ import React from "react";
 export const revalidate = 0;
 const BestSeller = async () => {
   const result = await db.product.findMany({
-    orderBy: {
-      order: "asc",
+    include: {
+      sizes: true,
+      extras: true,
     },
   });
+  console.log(result);
   const bestSeller = await result;
   return (
     <section className="section-gap">
@@ -18,7 +20,7 @@ const BestSeller = async () => {
       </div>
       <div className="container  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
         {bestSeller.map((item) => (
-          <CardPizaa key={item.id} {...item} />
+          <CardPizaa key={item.id} Product={item} />
         ))}
       </div>
     </section>

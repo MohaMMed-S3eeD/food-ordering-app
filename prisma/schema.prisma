@@ -17,4 +17,38 @@ model Product {
   order       Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  sizes       Size[]
+  extras      Extra[]
+}
+
+model Size {
+  id        String   @id @default(uuid())
+  name      SizeType
+  price     Float
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+}
+
+model Extra {
+  id        String    @id @default(uuid())
+  name      ExtraType
+  price     Float
+  Product   Product?  @relation(fields: [productId], references: [id])
+  productId String?
+}
+
+enum SizeType {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+enum ExtraType {
+  CHEESE
+  PEPPERONI
+  MUSHROOM
+  ONION
+  OLIVE
+  SPINACH
+  TOMATO
 }
