@@ -3,6 +3,7 @@ import MainHeading from "@/components/Main_Heading";
 import { db } from "@/lib/prisma";
 import React from "react";
 
+export const revalidate = 0;
 const BestSeller = async () => {
   const result = await db.product.findMany({
     orderBy: {
