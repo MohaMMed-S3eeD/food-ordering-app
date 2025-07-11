@@ -1,11 +1,11 @@
 import CardPizaa from "@/components/CardPizaa";
 import MainHeading from "@/components/Main_Heading";
-import { getProducts } from "@/server/db/products";
+import { getAllProducts } from "@/server/db/products";
 import React from "react";
 
 export const revalidate = 0;
 const BestSeller = async () => {
-  const bestSeller = await getProducts(3);
+  const bestSeller = await getAllProducts();
 
   return (
     <section className="section-gap">

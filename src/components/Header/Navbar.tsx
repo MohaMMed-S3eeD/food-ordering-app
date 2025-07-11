@@ -45,7 +45,7 @@ const Navbar = () => {
           isOpen
             ? "animate-in slide-in-from-top-full duration-300"
             : "animate-out slide-out-to-top-full duration-300 hidden sm:flex sm:animate-in sm:non-in-from-top-full"
-        } flex-1 fixed top-10 left-0 right-0 z-50 sm:static flex justify-center sm:justify-end items-center bg-background/95 backdrop-blur-sm border-b sm:border-none shadow-lg sm:shadow-none w-full mt-3 sm:mt-0 px-4 sm:px-0 py-4 sm:py-0`}
+        } flex-1 fixed top-10 left-0 right-0 z-50 sm:static flex justify-center sm:justify-end items-center  backdrop-blur-sm border-b sm:border-none shadow-lg sm:shadow-none w-full mt-3 sm:mt-0 px-4 sm:px-0 py-4 sm:py-0`}
       >
         <ul className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-md sm:w-auto">
           {links.map((link) => (

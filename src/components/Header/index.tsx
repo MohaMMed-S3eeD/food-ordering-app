@@ -2,6 +2,7 @@ import React from "react";
 import Link from "../Link";
 import { Routes } from "@/constants/enums";
 import Navbar from "./Navbar";
+import CartButton from "./cart-button";
 
 const Header = () => {
   return (
@@ -13,7 +14,10 @@ const Header = () => {
         >
           🍕 Pizza
         </Link>
-        <Navbar />
+        <div className="flex flex-row-reverse sm:flex-row items-center">
+          <Navbar />
+          <CartButton />
+        </div>
       </div>
     </header>
   );
