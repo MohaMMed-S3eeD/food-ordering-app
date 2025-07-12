@@ -18,7 +18,7 @@ const Hero = () => {
           <Link href="/menu" className="w-full sm:w-auto">
             <ButtonCrach className="login-btn bubbles-login w-full sm:w-auto">
               <div className="flex items-center justify-center gap-2">
-                <Link href="/menu"> Order Now</Link> <CircleArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                 Order Now <CircleArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </ButtonCrach>
           </Link>

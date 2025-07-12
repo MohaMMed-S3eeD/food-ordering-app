@@ -14,17 +14,19 @@ export type CartState = {
     items: CartItem[]
 }
 const initialState: CartState = {
-    items: [],
+    items: [
+
+    ],
 }
 
 export const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-            
+
     },
 })
 
-
+export const { } = cartSlice.actions
 export default cartSlice.reducer
-export const selectCartItems = (state: RootState) => state.cart.items
+export const selectCartItems = (state: RootState) => state.cart.items   
