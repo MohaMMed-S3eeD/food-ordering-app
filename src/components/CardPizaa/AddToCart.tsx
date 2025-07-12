@@ -28,6 +28,7 @@ import {
 } from "@/Redux/features/Cart/cartSlice";
 import { getSpecificItemQuantity } from "@/lib/cart";
 import { Trash2Icon } from "lucide-react";
+import { toast } from "sonner";
 
 export function AddToCart({ Product }: { Product: ProductWithRelations }) {
   const Cart = useAppSelector(selectCartItems);
@@ -59,6 +60,8 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
         extra: selectedExtra,
       })
     );
+    toast.success(`${Product.name} added to cart`);
+    console.log("Added to cart");
   };
   const handleRemoveFromCart = () => {
     dispatch(

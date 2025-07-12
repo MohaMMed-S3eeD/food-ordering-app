@@ -3,6 +3,7 @@ import { Rubik } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import ReduxProvider from "./providers/ReduxProvider";
+import { Toaster } from "sonner";
 
 const rubik = Rubik({
   subsets: ["latin"],
@@ -27,6 +28,17 @@ export default function RootLayout({
         <ReduxProvider>
           <Header />
           {children}
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              style: {
+                color: "var(--primary)",
+                fontWeight: "bold",
+                fontSize: "16px",
+                borderRadius: "12px",
+              },
+            }}
+          />
         </ReduxProvider>
       </body>
     </html>
