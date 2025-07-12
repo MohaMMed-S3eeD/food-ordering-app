@@ -19,11 +19,16 @@ import { formatCurrency } from "@/lib/formatters";
 import { Checkbox } from "../ui/checkbox";
 import { ProductWithRelations } from "@/types/product";
 import { Extra, Size, SizeType } from "@prisma/client";
-import { useAppSelector } from "@/Redux/hooks";
-import { selectCartItems } from "@/Redux/features/Cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/Redux/hooks";
+import {
+  addToCart,
+  removeItemFromCart,
+  selectCartItems,
+} from "@/Redux/features/Cart/cartSlice";
 
 export function AddToCart({ Product }: { Product: ProductWithRelations }) {
   const Cart = useAppSelector(selectCartItems);
+  const dispatch = useAppDispatch();
   const defultSize =
     Cart.find((item) => item.id === Product.id)?.size ||
     Product.sizes.find((size) => size.name === SizeType.SMALL);
@@ -34,11 +39,27 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
     defultExtra as unknown as Extra[]
   );
 
-
   let totalPrice = Product.basePrice + selectedSize?.price || 0;
   selectedExtra.forEach((extra) => {
     totalPrice += extra.price;
   });
+
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        id: Product.id,
+        name: Product.name,
+        basePrice: totalPrice,
+        image: Product.imageUrl,
+        quantity: 1,
+        size: selectedSize.name,
+        extra: selectedExtra,
+      })
+    );
+  };
+  const handleRemoveFromCart = () => {
+    dispatch(removeItemFromCart(Product.id));
+  };
   return (
     <Dialog>
       <form>
@@ -80,12 +101,48 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
             </div>
           </div>
 
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button type="submit">Add to cart {totalPrice}+</Button>
-          </DialogFooter>
+            <DialogFooter className="flex flex-col gap-4 items-center justify-between w-full">
+              {Cart.length > 0 ? (
+                <div className="flex items-center justify-center gap-4 w-full bg-gray-50 p-4 rounded-lg border">
+                  <Button 
+                    onClick={handleAddToCart} 
+                    type="submit"
+                    size="sm"
+                    className="h-8 w-8 rounded-full bg-primary hover:bg-primary/90 text-white font-bold"
+                  >
+                    +
+                  </Button>
+                  <span className="text-lg font-semibold text-gray-800 min-w-[2rem] text-center">
+                    {Cart.find((item) => item.id === Product.id)?.quantity || 0}
+                  </span>
+                  <Button
+                    onClick={handleRemoveFromCart}
+                    type="submit"
+                    variant="outline"
+                    size="sm"
+                    className="h-8 w-8 rounded-full border-primary text-primary hover:bg-primary hover:text-white font-bold"
+                  >
+                    -
+                  </Button>
+                </div>
+              ) : (
+                <Button 
+                  onClick={handleAddToCart} 
+                  type="submit" 
+                  className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 rounded-lg transition-colors"
+                >
+                  Add to cart • {totalPrice}
+                </Button>
+              )}
+              <DialogClose asChild>
+                <Button 
+                  variant="outline" 
+                  className="w-full border-gray-300 text-gray-600 hover:bg-gray-50 py-2 rounded-lg transition-colors"
+                >
+                  Cancel
+                </Button>
+              </DialogClose>
+            </DialogFooter>
         </DialogContent>
       </form>
     </Dialog>
@@ -131,9 +188,9 @@ function ExtraGroup({
   setSelectedExtra: (extra: Extra[]) => void;
 }) {
   const handleExtraToggle = (extra: Extra) => {
-    const isSelected = selectedExtra.some(item => item.id === extra.id);
+    const isSelected = selectedExtra.some((item) => item.id === extra.id);
     if (isSelected) {
-      setSelectedExtra(selectedExtra.filter(item => item.id !== extra.id));
+      setSelectedExtra(selectedExtra.filter((item) => item.id !== extra.id));
     } else {
       setSelectedExtra([...selectedExtra, extra]);
     }
@@ -145,7 +202,7 @@ function ExtraGroup({
         <div key={exter.id} className="flex items-center gap-3 border-b pb-2 ">
           <Checkbox
             id={exter.id}
-            checked={selectedExtra.some(item => item.id === exter.id)}
+            checked={selectedExtra.some((item) => item.id === exter.id)}
             onCheckedChange={() => handleExtraToggle(exter)}
           />
           <Label htmlFor={exter.id}>
