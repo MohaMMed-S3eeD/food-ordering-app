@@ -22,9 +22,12 @@ import { Extra, Size, SizeType } from "@prisma/client";
 import { useAppDispatch, useAppSelector } from "@/Redux/hooks";
 import {
   addToCart,
+  removeFromCart,
   removeItemFromCart,
   selectCartItems,
 } from "@/Redux/features/Cart/cartSlice";
+import { getSpecificItemQuantity } from "@/lib/cart";
+import { Trash2Icon } from "lucide-react";
 
 export function AddToCart({ Product }: { Product: ProductWithRelations }) {
   const Cart = useAppSelector(selectCartItems);
@@ -58,8 +61,22 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
     );
   };
   const handleRemoveFromCart = () => {
-    dispatch(removeItemFromCart(Product.id));
+    dispatch(
+      removeFromCart({
+        id: Product.id,
+        size: selectedSize.name,
+        extra: selectedExtra,
+      })
+    );
   };
+
+  const itemQuantity = getSpecificItemQuantity(
+    Product.id,
+    selectedSize.name,
+    selectedExtra,
+    Cart
+  );
+
   return (
     <Dialog>
       <form>
@@ -101,48 +118,59 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
             </div>
           </div>
 
-            <DialogFooter className="flex flex-col gap-4 items-center justify-between w-full">
-              {Cart.length > 0 ? (
-                <div className="flex items-center justify-center gap-4 w-full bg-gray-50 p-4 rounded-lg border">
-                  <Button 
-                    onClick={handleAddToCart} 
-                    type="submit"
-                    size="sm"
-                    className="h-8 w-8 rounded-full bg-primary hover:bg-primary/90 text-white font-bold"
-                  >
-                    +
-                  </Button>
-                  <span className="text-lg font-semibold text-gray-800 min-w-[2rem] text-center">
-                    {Cart.find((item) => item.id === Product.id)?.quantity || 0}
-                  </span>
-                  <Button
-                    onClick={handleRemoveFromCart}
-                    type="submit"
-                    variant="outline"
-                    size="sm"
-                    className="h-8 w-8 rounded-full border-primary text-primary hover:bg-primary hover:text-white font-bold"
-                  >
-                    -
-                  </Button>
-                </div>
-              ) : (
-                <Button 
-                  onClick={handleAddToCart} 
-                  type="submit" 
-                  className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 rounded-lg transition-colors"
+          <DialogFooter className="flex flex-col gap-4 items-center justify-between w-full ">
+            {itemQuantity > 0 ? (
+              <div className="flex items-center justify-center gap-4 w-full bg-gray-50 p-4 rounded-lg border">
+                <Button
+                  onClick={handleAddToCart}
+                  type="submit"
+                  size="sm"
+                  className="h-8 w-8 rounded-full bg-primary hover:bg-primary/90 text-white font-bold"
                 >
-                  Add to cart • {totalPrice}
+                  +
                 </Button>
-              )}
-              <DialogClose asChild>
-                <Button 
-                  variant="outline" 
-                  className="w-full border-gray-300 text-gray-600 hover:bg-gray-50 py-2 rounded-lg transition-colors"
+                <span className="text-lg font-semibold text-gray-800 min-w-[2rem] text-center">
+                  {itemQuantity}
+                </span>
+                <Button
+                  onClick={handleRemoveFromCart}
+                  type="submit"
+                  variant="outline"
+                  size="sm"
+                  className="h-8 w-8 rounded-full border-primary text-primary hover:bg-primary hover:text-white font-bold"
                 >
-                  Cancel
+                  -
                 </Button>
-              </DialogClose>
-            </DialogFooter>
+                <Button
+                  onClick={() => dispatch(removeItemFromCart({ id: Product.id, size: selectedSize.name, extra: selectedExtra }))}
+                  type="submit"
+                  variant="outline"
+                  size="sm"
+                  className="h-8 w-8 rounded-full border-primary text-primary hover:bg-primary hover:text-white font-bold"
+                >
+                  <Trash2Icon size={16} className="w-4 h-4" />
+                </Button>
+              </div>
+            ) : (
+              <Button
+                onClick={handleAddToCart}
+                type="submit"
+                className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 rounded-lg transition-colors"
+              >
+                Add to cart • {totalPrice}
+              </Button>
+            )}
+          </DialogFooter>
+          <DialogFooter className="flex flex-col gap-4 items-center justify-between w-full ">
+            <DialogClose asChild>
+              <Button
+                variant="outline"
+                className="w-full border-gray-300 text-gray-600 hover:bg-gray-50 py-2 rounded-lg transition-colors"
+              >
+                Cancel
+              </Button>
+            </DialogClose>
+          </DialogFooter>
         </DialogContent>
       </form>
     </Dialog>
@@ -197,7 +225,7 @@ function ExtraGroup({
   };
 
   return (
-    <div>
+    <div className="text-xs">
       {Exters.map((exter) => (
         <div key={exter.id} className="flex items-center gap-3 border-b pb-2 ">
           <Checkbox

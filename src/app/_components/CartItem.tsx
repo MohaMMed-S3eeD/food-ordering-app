@@ -43,7 +43,15 @@ const CartItem = ({ item }: { item: CartItem }) => {
       <Button
         variant="outline"
         size="icon"
-        onClick={() => dispatch(removeItemFromCart(item.id))}
+        onClick={() =>
+          dispatch(
+            removeItemFromCart({
+              id: item.id,
+              size: item.size,
+              extra: item.extra,
+            })
+          )
+        }
       >
         <Trash2Icon className="w-3 h-3 text-primary" />
       </Button>

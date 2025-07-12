@@ -16,7 +16,9 @@ const CartItems = () => {
           <ul className="space-y-4">
             {Cart.map((item) => (
               <li
-                key={item.id}
+                key={`${item.id}-${item.size}-${item.extra
+                  .map((extra) => extra.id)
+                  .join("-")}`}
                 className="flex items-center justify-between border-b border-gray-200 pb-4"
               >
                 <CartItem item={item} />

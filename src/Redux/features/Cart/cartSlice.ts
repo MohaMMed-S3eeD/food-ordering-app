@@ -26,16 +26,16 @@ export const cartSlice = createSlice({
     reducers: {
         addToCart: (state, action: PayloadAction<CartItem>) => {
             const existingItem = state.items.find(item => {
-                const hasSameExtras = item.extra.length === action.payload.extra.length && 
-                    item.extra.every(extra => 
+                const hasSameExtras = item.extra.length === action.payload.extra.length &&
+                    item.extra.every(extra =>
                         action.payload.extra.some(newExtra => newExtra.id === extra.id)
                     )
-                
-                return item.id === action.payload.id && 
-                       item.size === action.payload.size && 
-                       hasSameExtras
+
+                return item.id === action.payload.id &&
+                    item.size === action.payload.size &&
+                    hasSameExtras
             })
-            
+
             if (existingItem) {
                 existingItem.quantity += 1
             } else {
@@ -45,18 +45,58 @@ export const cartSlice = createSlice({
                 })
             }
         },
-      
+
         removeFromCart: (state, action: PayloadAction<{ id: string, size: string, extra: Extra[] }>) => {
-            const existingItem = state.items.find(item => item.id === action.payload.id && item.size === action.payload.size && item.extra.every(extra => action.payload.extra.includes(extra)))
+            const existingItem = state.items.find(item => {
+                const hasSameExtras = item.extra.length === action.payload.extra.length &&
+                    item.extra.every(extra =>
+                        action.payload.extra.some(newExtra => newExtra.id === extra.id)
+                    )
+
+                return item.id === action.payload.id &&
+                    item.size === action.payload.size &&
+                    hasSameExtras
+            })
+
             if (existingItem) {
                 existingItem.quantity -= 1
                 if (existingItem.quantity === 0) {
-                    state.items = state.items.filter(item => item.id !== action.payload.id)
+                    state.items = state.items.filter(item => {
+                        const hasSameExtras = item.extra.length === action.payload.extra.length &&
+                            item.extra.every(extra =>
+                                action.payload.extra.some(newExtra => newExtra.id === extra.id)
+                            )
+
+                        return !(item.id === action.payload.id &&
+                            item.size === action.payload.size &&
+                            hasSameExtras)
+                    })
                 }
             }
         },
-        removeItemFromCart: (state, action: PayloadAction<string>) => {
-            state.items = state.items.filter(item => item.id !== action.payload)
+        removeItemFromCart: (state, action: PayloadAction<{ id: string, size: string, extra: Extra[] }>) => {
+            const existingItem = state.items.find(item => {
+                const hasSameExtras = item.extra.length === action.payload.extra.length &&
+                    item.extra.every(extra =>
+                        action.payload.extra.some(newExtra => newExtra.id === extra.id)
+                    )
+
+                return item.id === action.payload.id &&
+                    item.size === action.payload.size &&
+                    hasSameExtras
+            })
+            if (existingItem) {
+                state.items = state.items.filter(item => {
+                    const hasSameExtras = item.extra.length === action.payload.extra.length &&
+                        item.extra.every(extra =>
+                            action.payload.extra.some(newExtra => newExtra.id === extra.id)
+                        )
+
+                    return !(item.id === action.payload.id &&
+                        item.size === action.payload.size &&
+                        hasSameExtras)
+                })
+            }
         },
         clearCart: (state) => {
             state.items = []
