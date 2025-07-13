@@ -13,6 +13,9 @@ const CartItems = () => {
   );
   const deliveryFee = 10;
   const totalAmount = subtotal + deliveryFee;
+  
+  // تم حذف useEffect لأن الحفظ يتم الآن في cartSlice مباشرة
+  
   return (
     <div>
       <ul className="space-y-4">

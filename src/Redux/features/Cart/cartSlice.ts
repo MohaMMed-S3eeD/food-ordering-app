@@ -1,3 +1,4 @@
+"use client";
 import { RootState } from '@/Redux/store'
 import { Extra } from '@prisma/client'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
@@ -11,19 +12,32 @@ export type CartItem = {
     size: string
     extra: Extra[]
 }
+
 export type CartState = {
     items: CartItem[]
 }
-const initialState: CartState = {
-    items: [
 
-    ],
+// البدء بحالة فارغة دائماً
+const initialState: CartState = {
+    items: [],
+}
+
+// دالة للحفظ في localStorage
+const saveToLocalStorage = (items: CartItem[]) => {
+    if (typeof window !== "undefined") {
+        localStorage.setItem("cartItems", JSON.stringify(items));
+    }
 }
 
 export const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
+        // إضافة reducer لتحميل البيانات من localStorage
+        loadCartFromStorage: (state, action: PayloadAction<CartItem[]>) => {
+            state.items = action.payload
+        },
+        
         addToCart: (state, action: PayloadAction<CartItem>) => {
             const existingItem = state.items.find(item => {
                 const hasSameExtras = item.extra.length === action.payload.extra.length &&
@@ -44,6 +58,8 @@ export const cartSlice = createSlice({
                     quantity: 1
                 })
             }
+            
+            saveToLocalStorage(state.items)
         },
 
         removeFromCart: (state, action: PayloadAction<{ id: string, size: string, extra: Extra[] }>) => {
@@ -73,7 +89,10 @@ export const cartSlice = createSlice({
                     })
                 }
             }
+            
+            saveToLocalStorage(state.items)
         },
+        
         removeItemFromCart: (state, action: PayloadAction<{ id: string, size: string, extra: Extra[] }>) => {
             const existingItem = state.items.find(item => {
                 const hasSameExtras = item.extra.length === action.payload.extra.length &&
@@ -97,13 +116,17 @@ export const cartSlice = createSlice({
                         hasSameExtras)
                 })
             }
+            
+            saveToLocalStorage(state.items)
         },
+        
         clearCart: (state) => {
             state.items = []
+            saveToLocalStorage(state.items)
         }
     },
 })
 
-export const { addToCart, removeItemFromCart, removeFromCart, clearCart } = cartSlice.actions
+export const { addToCart, removeItemFromCart, removeFromCart, clearCart, loadCartFromStorage } = cartSlice.actions
 export default cartSlice.reducer
 export const selectCartItems = (state: RootState) => state.cart.items   
