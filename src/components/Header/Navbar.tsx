@@ -4,6 +4,7 @@ import Link from "../Link";
 import { Pages, Routes } from "@/constants/enums";
 import ButtonCrach from "../ui/btn crach/buttonCrach";
 import { AlignLeft, X } from "lucide-react";
+import BtnChangeLang from "@/app/[locale]/_components/BtnChangeLang";
 
 const Navbar = () => {
   const links = [
@@ -57,6 +58,7 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
+          <BtnChangeLang />
           <li className="w-full sm:w-auto mb-2 sm:mb-0">
             <Link href={`/${Pages.LOGIN}`} className="block">
               <ButtonCrach className="login-btn bubbles-login w-full sm:w-auto text-center">

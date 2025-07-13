@@ -1,0 +1,21 @@
+import { Languages } from "lucide-react";
+import React from "react";
+import { useLocale } from "next-intl";
+import Link from "next/link";
+import "@/components/ui/btn crach/style.css";
+const BtnChangeLang = () => {
+  const locale = useLocale();
+  return (
+    <Link
+      href={`/${locale === "en" ? "ar" : "en"}`}
+      className=" bubbles px-3 py-2 "
+    >
+      <span className="flex items-center gap-2 text">
+        <Languages className="w-4 h-4" />
+        {locale === "en" ? "العربية" : "English"}
+      </span>
+    </Link>
+  );
+};
+
+export default BtnChangeLang;
