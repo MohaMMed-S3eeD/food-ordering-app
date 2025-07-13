@@ -5,22 +5,24 @@ import { Pages, Routes } from "@/constants/enums";
 import ButtonCrach from "../ui/btn crach/buttonCrach";
 import { AlignLeft, X } from "lucide-react";
 import BtnChangeLang from "@/app/[locale]/_components/BtnChangeLang";
+import { useTranslations } from "next-intl";
 
 const Navbar = () => {
+  const t = useTranslations("navbar");
   const links = [
     {
       id: crypto.randomUUID(),
-      title: "Menu",
+      title: t("menu"),
       href: Routes.MENU,
     },
     {
       id: crypto.randomUUID(),
-      title: "About",
+      title: t("about"),
       href: Routes.ABOUT,
     },
     {
       id: crypto.randomUUID(),
-      title: "Contact",
+      title: t("contact"),
       href: Routes.CONTACT,
     },
   ];
@@ -52,7 +54,7 @@ const Navbar = () => {
           {links.map((link) => (
             <li className="w-full sm:w-auto" key={link.id}>
               <Link href={`/${link.href}`} className="text-primary block">
-                <ButtonCrach className="bubbles w-full sm:w-auto text-center">
+                <ButtonCrach className="bubbles w-full sm:w-auto text-center whitespace-nowrap">
                   {link.title}
                 </ButtonCrach>
               </Link>
@@ -61,8 +63,8 @@ const Navbar = () => {
           <BtnChangeLang />
           <li className="w-full sm:w-auto mb-2 sm:mb-0">
             <Link href={`/${Pages.LOGIN}`} className="block">
-              <ButtonCrach className="login-btn bubbles-login w-full sm:w-auto text-center">
-                Login
+              <ButtonCrach className="login-btn bubbles-login w-full sm:w-auto text-center whitespace-nowrap">
+                {t("login")}
               </ButtonCrach>
             </Link>
           </li>

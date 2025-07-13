@@ -14,22 +14,20 @@ const Hero = () => {
           {t("title")}
         </h1>
         <p className="text-base sm:text-lg lg:text-xl text-muted-foreground text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
-          Craving pizza? We&apos;ve got you covered with fresh ingredients,
-          endless flavors, and the fastest delivery. Your perfect slice is just
-          a tap away!
+          {t("description")}
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4">
           <Link href="/menu" className="w-full sm:w-auto">
             <ButtonCrach className="login-btn bubbles-login w-full sm:w-auto">
               <div className="flex items-center justify-center gap-2">
-                Order Now <CircleArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                {t("orderNow")} <CircleArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </ButtonCrach>
           </Link>
           <Link href="/menu" className="w-full sm:w-auto">
             <ButtonCrach className="bubbles w-full sm:w-auto">
               <div className="flex items-center justify-center gap-2">
-                <h1> View Menu</h1>{" "}
+                <h1>{t("viewMenu")}</h1>{" "}
                 <CircleArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </ButtonCrach>
