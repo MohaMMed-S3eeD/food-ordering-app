@@ -6,6 +6,7 @@ interface Props extends IFormFieldsVariables {
 }
 
 const useFormFields = ({ slug, translations }: Props) => {
+    console.log(translations);
     const loginFields = (): IFormField[] => [
         {
             label: "Email",
