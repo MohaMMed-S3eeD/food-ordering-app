@@ -2,6 +2,7 @@ import { Pages } from "@/constants/enums";
 import { IFormField, IFormFieldsVariables } from "@/types/app";
 
 interface Props extends IFormFieldsVariables {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     translations: any;
 }
 
