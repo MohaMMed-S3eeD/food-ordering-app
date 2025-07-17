@@ -1,6 +1,10 @@
-import { Environments } from "@/constants/enums";
+// import { ValidationErrors } from '@/validations/auth';
+import { Environments, Pages, Routes } from "@/constants/enums";
+import { db } from "@/lib/prisma";
 import { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { signIn } from "./_action/auth";
 
 export const AuthOptions: NextAuthOptions = {
     session: {
@@ -21,15 +25,23 @@ export const AuthOptions: NextAuthOptions = {
                     password: { label: "Password", type: "password", placeholder: "********" },
 
                 },
-                authorize: (credentials) => {
-                    const user = credentials
-                    return {
-                        id: crypto.randomUUID(),
-                        ...user
+                authorize: async (credentials, req) => {
+                    const currentLocale = req?.headers?.referer?.split("/")[3];
+                    const res = await signIn(credentials, currentLocale);
+                    if (res.status === 200 && res.userData) {
+                        return { ...res.userData, message: res.message, locale: currentLocale };
+                    } else {
+                        throw new Error(
+                            JSON.stringify({
+                                ValidationErrors: res.error,
+                                responseError: res.message
+                            }));
                     }
                 }
 
             }
         ),
-    ]
+    ],
+    adapter: PrismaAdapter(db),
+    pages: { signIn: `${Routes.AUTH}/${Pages.LOGIN}` }
 }
