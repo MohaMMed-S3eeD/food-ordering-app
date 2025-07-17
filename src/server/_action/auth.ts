@@ -4,7 +4,7 @@ import { LoginSchema } from "@/validations/auth";
 import { Locale } from "next-intl";
 import { Translations } from "@/types/translations";
 import { db } from "@/lib/prisma";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
 
 export const signIn = async (
     credentials: Record<"email" | "password", string> | undefined,
