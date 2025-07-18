@@ -40,7 +40,7 @@ export const signIn = async (
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...userData } = user;
-        return { message: "Login successful", status: 200, userData };
+        return {  message: "Login successful", status: 200, userData };
     } catch (error) {
         console.log(error);
         return { error: "Internal server error", status: 500 };

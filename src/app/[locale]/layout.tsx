@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Rubik } from "next/font/google";
+import { Rubik, Cairo } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import ReduxProvider from "./providers/ReduxProvider";
@@ -11,6 +11,12 @@ import { routing } from "@/i18n/routing";
 const rubik = Rubik({
   subsets: ["latin"],
   variable: "--font-rubik",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  preload: true,
+});
+const cairo = Cairo({
+  subsets: ["latin"],
+  variable: "--font-cairo",
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   preload: true,
 });
@@ -35,7 +41,11 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
-      <body className={`${rubik.className} antialiased`}>
+      <body
+        className={`${
+          locale === "ar" ? cairo.className : rubik.className
+        } antialiased`}
+      >
         <NextIntlClientProvider>
           <ReduxProvider>
             <Header />
