@@ -25,9 +25,14 @@ export const AuthOptions: NextAuthOptions = {
                     password: { label: "Password", type: "password", placeholder: "********" },
 
                 },
+
+
                 authorize: async (credentials, req) => {
-                    const currentLocale = req?.headers?.referer?.split("/")[3];
-                    const res = await signIn(credentials, currentLocale);
+                    const currentLocale = req?.headers?.referer?.split("/")[3] || "en";
+                    const validLocales = ["ar", "en"];
+                    const safeLocale = validLocales.includes(currentLocale) ? currentLocale : "en";
+
+                    const res = await signIn(credentials, safeLocale);
                     if (res.status === 200 && res.userData) {
                         return { ...res.userData, message: res.message, locale: currentLocale };
                     } else {
