@@ -9,7 +9,7 @@ interface Props extends IFormField {
   error: ValidationErrors;
 }
 
-const FormFields = (props: Props) => {
+const FormFields = (props: Props ) => {  
   const { type } = props;
   const renderField = (): React.ReactNode => {
     if (type === InputTypes.EMAIL || type === InputTypes.TEXT) {

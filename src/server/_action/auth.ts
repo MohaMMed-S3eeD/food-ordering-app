@@ -1,10 +1,11 @@
 "use server";
 
-import { LoginSchema } from "@/validations/auth";
+import { LoginSchema, RegisterSchema } from "@/validations/auth";
 import { Locale } from "next-intl";
 import { Translations } from "@/types/translations";
 import { db } from "@/lib/prisma";
-// import bcrypt from "bcrypt";
+import { getLocale } from "next-intl/server";
+import bcrypt from "bcrypt";
 
 export const signIn = async (
     credentials: Record<"email" | "password", string> | undefined,
@@ -33,16 +34,74 @@ export const signIn = async (
             return { error: locale === "ar" ? "الحساب غير موجود" : "User not found", status: 404 };
         }
 
-        // const isValidPassword = await bcrypt.compare(result.data.password || "", user.password);
-        const isValidPassword = true;
+        const isValidPassword = await bcrypt.compare(result.data.password || "", user.password);
         if (!isValidPassword) {
             return { error: "Invalid password", status: 401 };
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...userData } = user;
-        return {  message: "Login successful", status: 200, userData };
+        return { message: "Login successful", status: 200, userData };
     } catch (error) {
         console.log(error);
         return { error: "Internal server error", status: 500 };
     }
 };
+
+
+export const signUp = async (prevState: unknown, formData: FormData) => {
+    console.log(formData);
+    const locale = await getLocale();
+    const translations: Translations = await import(`@/messages/${locale}.json`).then(
+        (module) => module.default
+    );
+
+    const schema = RegisterSchema(translations);
+    const result = schema.safeParse(Object.fromEntries(formData.entries()));
+
+    if (result.success === false) {
+        return {
+            message: result.error.issues.map(issue => issue.message).join(', '),
+            formData: Object.fromEntries(formData.entries()),
+            status: 400
+        };
+    }
+    try {
+        // user already exists
+        const user = await db.user.findUnique({
+            where: {
+                email: result.data.email,
+            },
+        });
+        if (user) {
+            return {
+                message: translations.messages.userAlreadyExists,
+                status: 400
+            }
+        }
+        // hash password
+        const hashedPassword = await bcrypt.hash(result.data.password, 10);
+        //Todo logic to create user 02:45:00
+        const newUser = await db.user.create({
+            data: {
+                email: result.data.email,
+                password: hashedPassword,
+                name: result.data.name,
+                phone: "",
+                city: "",
+            },
+        });
+        if (!newUser) {
+            return {
+                message: translations.messages.unexpectedError,
+                status: 500
+            }
+        }
+        return { message: translations.messages.accountCreated, status: 201, user: newUser };
+    } catch (error) {
+        console.log(error)
+        return {
+            message: translations.messages.unexpectedError,
+            status: 500
+        }
+    }
+}

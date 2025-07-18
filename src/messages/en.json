@@ -87,6 +87,7 @@
   },
   "validation": {
     "nameRequired": "Name is required",
+    "nameMinLength": "Name must be at least 4 characters",
     "validEmail": "Must be a valid email",
     "passwordMinLength": "Password must be at least 6 characters",
     "passwordMaxLength": "Password must be at most 40 characters",

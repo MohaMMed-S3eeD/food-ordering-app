@@ -8,9 +8,12 @@ import { toast } from "sonner";
 import Loading from "@/app/[locale]/_components/Loading";
 // import { useRouter } from "next/navigation";
 import { Translations } from "@/types/translations";
+import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 
 const Form = ({ translation }: { translation: Translations }) => {
-  // const router = useRouter();
+  const router = useRouter();
+  const locale = useLocale();
   const { getFields } = useFormFields({
     slug: Pages.LOGIN,
     translations: translation,
@@ -36,14 +39,33 @@ const Form = ({ translation }: { translation: Translations }) => {
       if (response?.error) {
         const errorData = JSON.parse(response?.error || "");
         if (errorData.ValidationErrors) {
-          toast.error(errorData.ValidationErrors);
+          toast.error(errorData.ValidationErrors, {
+            style: {
+              background: "#ef4444",
+              color: "white",
+              border: "1px solid #b91c1c",
+            },
+          });
         } else {
-          toast.error(errorData.responseError);
+          toast.error(errorData.responseError, {
+            style: {
+              background: "#ef4444",
+              color: "white",
+              border: "1px solid #b91c1c",
+            },
+          });
         }
       }
       if (response?.ok) {
-        toast.success(translation.messages.loginSuccessful);
-        // router.push("/");
+        router.push(`/${locale}/`);
+        toast.success(translation.messages.loginSuccessful, {
+          style: {
+            background: "#10b981",
+            color: "white",
+            border: "1px solid #059669",
+          },
+        });
+        console.log("router", router);
       }
     } catch (error) {
       console.log(error);
@@ -62,7 +84,7 @@ const Form = ({ translation }: { translation: Translations }) => {
         type="submit"
         className="w-full bg-primary cursor-pointer hover:scale-105 hover:bg-primary/90 text-white py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 font-medium shadow-sm hover:shadow-md"
       >
-        {loading ? <Loading /> : "Sign In"}
+        {loading ? <Loading /> : translation.auth.login.submit}
       </button>
     </form>
   );

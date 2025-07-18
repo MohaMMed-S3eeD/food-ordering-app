@@ -87,6 +87,7 @@
   },
   "validation": {
     "nameRequired": "الاسم مطلوب",
+    "nameMinLength": "يجب أن يكون الاسم على الأقل 4 أحرف",
     "validEmail": "يجب أن يكون بريد إلكتروني صالح",
     "passwordMinLength": "يجب أن تكون كلمة المرور على الأقل 6 أحرف",
     "passwordMaxLength": "يجب أن تكون كلمة المرور على الأكثر 40 حرفًا",

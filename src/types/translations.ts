@@ -71,7 +71,8 @@ type Field = {
       };
     };
     validation: {
-      nameRequired: string;
+      nameRequired: string; 
+      nameMinLength: string;
       validEmail: string;
       passwordMinLength: string;
       passwordMaxLength: string;
