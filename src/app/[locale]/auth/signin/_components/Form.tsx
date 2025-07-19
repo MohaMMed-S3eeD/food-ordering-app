@@ -65,7 +65,7 @@ const Form = ({ translation }: { translation: Translations }) => {
             border: "1px solid #059669",
           },
         });
-        console.log("router", router);
+        router.push(`/${locale}/profile`);
       }
     } catch (error) {
       console.log(error);
