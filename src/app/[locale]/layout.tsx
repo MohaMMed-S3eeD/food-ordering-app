@@ -7,6 +7,7 @@ import { Toaster } from "sonner";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import NextAuthSessionProvider from "./providers/NextAuthSessionProvider";
 
 const rubik = Rubik({
   subsets: ["latin"],
@@ -46,23 +47,25 @@ export default async function LocaleLayout({
           locale === "ar" ? cairo.className : rubik.className
         } antialiased`}
       >
-        <NextIntlClientProvider>
-          <ReduxProvider>
-            <Header />
-            {children}
-            <Toaster
-              position="top-center"
-              toastOptions={{
-                style: {
-                  color: "var(--primary)",
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                  borderRadius: "12px",
-                },
-              }}
-            />
-          </ReduxProvider>
-        </NextIntlClientProvider>
+        <NextAuthSessionProvider>
+          <NextIntlClientProvider>
+            <ReduxProvider>
+              <Header />
+              {children}
+              <Toaster
+                position="top-center"
+                toastOptions={{
+                  style: {
+                    color: "var(--primary)",
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                    borderRadius: "12px",
+                  },
+                }}
+              />
+            </ReduxProvider>
+          </NextIntlClientProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

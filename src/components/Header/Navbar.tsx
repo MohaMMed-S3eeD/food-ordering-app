@@ -6,8 +6,10 @@ import ButtonCrach from "../ui/btn crach/buttonCrach";
 import { AlignLeft, X } from "lucide-react";
 import BtnChangeLang from "@/app/[locale]/_components/BtnChangeLang";
 import { useTranslations } from "next-intl";
+import { Session } from "next-auth";
+import AuthBtn from "./AuthBtn";
 
-const Navbar = () => {
+const Navbar = ({ initialSession }: { initialSession: Session | null }) => {
   const t = useTranslations("navbar");
   const links = [
     {
@@ -54,19 +56,20 @@ const Navbar = () => {
           {links.map((link) => (
             <li className="w-full sm:w-auto" key={link.id}>
               <Link href={`/${link.href}`} className="text-primary block">
-                <ButtonCrach className="bubbles w-full sm:w-auto text-center whitespace-nowrap">
+                <ButtonCrach
+                  onClick={() => setIsOpen(false)}
+                  className="bubbles w-full sm:w-auto text-center whitespace-nowrap"
+                >
                   {link.title}
                 </ButtonCrach>
               </Link>
             </li>
           ))}
-          <BtnChangeLang />
-          <li className="w-full sm:w-auto mb-2 sm:mb-0">
-            <Link href={`/auth/signin`} className="block">
-              <ButtonCrach className="login-btn bubbles-login w-full sm:w-auto text-center whitespace-nowrap">
-                {t("login")}
-              </ButtonCrach>
-            </Link>
+          <li className="w-full block sm:w-auto sm:mb-0 sm:hidden">
+            <AuthBtn initialSession={initialSession} />
+          </li>
+          <li className="block sm:hidden text-center">
+            <BtnChangeLang />
           </li>
         </ul>
       </nav>

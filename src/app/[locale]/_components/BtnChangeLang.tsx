@@ -1,3 +1,4 @@
+"use client";
 import { Languages } from "lucide-react";
 import React from "react";
 import { useLocale } from "next-intl";
@@ -10,12 +11,13 @@ const BtnChangeLang = () => {
 
   return (
     <Link
+      
       href={pathname}
       locale={locale === "en" ? "ar" : "en"}
-      className="block"
+      className="block w-full"
     >
-      <span className="flex bubbles items-center gap-2 text whitespace-nowrap">
-        <span className="flex items-center gap-2 text">
+      <span className="flex bubbles items-center gap-2 text whitespace-nowrap justify-center w-full">
+        <span className="flex items-center gap-2 text text-center">
           <Languages className="w-4 h-4" />
           {locale === "en" ? "AR" : "EN"}
         </span>
