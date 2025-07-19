@@ -29,9 +29,11 @@ import {
 import { getSpecificItemQuantity } from "@/lib/cart";
 import { Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export function AddToCart({ Product }: { Product: ProductWithRelations }) {
   const Cart = useAppSelector(selectCartItems);
+  const t = useTranslations("messages");
   const dispatch = useAppDispatch();
   const defultSize =
     Cart.find((item) => item.id === Product.id)?.size ||
@@ -60,8 +62,7 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
         extra: selectedExtra,
       })
     );
-    toast.success(`${Product.name} added to cart`);
-    console.log("Added to cart");
+    toast.success(t("productAdded"));
   };
   const handleRemoveFromCart = () => {
     dispatch(
@@ -71,6 +72,7 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
         extra: selectedExtra,
       })
     );
+    toast.success(t("deleteProductSucess"));
   };
 
   const itemQuantity = getSpecificItemQuantity(
@@ -145,7 +147,15 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
                   -
                 </Button>
                 <Button
-                  onClick={() => dispatch(removeItemFromCart({ id: Product.id, size: selectedSize.name, extra: selectedExtra }))}
+                  onClick={() =>
+                    dispatch(
+                      removeItemFromCart({
+                        id: Product.id,
+                        size: selectedSize.name,
+                        extra: selectedExtra,
+                      })
+                    )
+                  }
                   type="submit"
                   variant="outline"
                   size="sm"

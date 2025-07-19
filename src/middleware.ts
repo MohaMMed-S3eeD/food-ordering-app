@@ -3,7 +3,7 @@ import { routing } from './i18n/routing';
 import { withAuth } from 'next-auth/middleware';
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
-import { Routes } from './constants/enums';
+import { Routes, UserRole } from './constants/enums';
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -13,8 +13,9 @@ export default withAuth(
     //* extract the locale from pathname
     const localeMatch = pathname.match(/^\/([a-z]{2})(\/.*)?$/);
     const currentLocale = localeMatch ? localeMatch[1] : 'en';
-    
+
     const isAuth = await getToken({ req });
+
     const isAuthPage = pathname.startsWith(`/${currentLocale}/${Routes.AUTH}`);
     const protectedRoutes = [Routes.PROFILE, Routes.ADMIN];
     const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(`/${currentLocale}/${route}`));
@@ -25,8 +26,29 @@ export default withAuth(
     }
     //* if user is authenticated and the route is auth page, redirect to profile page
     if (isAuth && isAuthPage) {
-      return NextResponse.redirect(new URL(`/${currentLocale}/${Routes.PROFILE}`, req.url));
+      const role = isAuth.role;
+      if (role === UserRole.ADMIN) {
+        return NextResponse.redirect(new URL(`/${currentLocale}/${Routes.ADMIN}`, req.url));
+      } else {
+        return NextResponse.redirect(new URL(`/${currentLocale}/${Routes.PROFILE}`, req.url));
+      }
     }
+    if (isAuth && pathname.startsWith(`/${currentLocale}/${Routes.PROFILE}`)) {
+      const role = isAuth.role;
+      if (role === UserRole.ADMIN) {
+        return NextResponse.redirect(new URL(`/${currentLocale}/${Routes.ADMIN}`, req.url));
+      }
+      return NextResponse.next();
+    }
+    //* Admin route protection
+    if (isAuth && pathname.startsWith(`/${currentLocale}/${Routes.ADMIN}`)) {
+      const role = isAuth.role;
+      if (role !== UserRole.ADMIN) {
+        return NextResponse.redirect(new URL(`/${currentLocale}/${Routes.PROFILE}`, req.url));
+      }
+      return NextResponse.next();
+    }
+
     return intlMiddleware(req);
   },
   {

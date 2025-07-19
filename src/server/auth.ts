@@ -1,12 +1,83 @@
 // import { ValidationErrors } from '@/validations/auth';
 import { Environments, Pages, Routes } from "@/constants/enums";
 import { db } from "@/lib/prisma";
-import { NextAuthOptions } from "next-auth";
+import { DefaultSession, NextAuthOptions, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { signIn } from "./_action/auth";
+import { UserRole } from "@prisma/client";
+import { JWT } from "next-auth/jwt";
 
+
+
+declare module "next-auth" {
+    interface Session extends DefaultSession {
+        user: User;
+    }
+}
+declare module "next-auth/jwt" {
+    interface JWT extends Partial<User> {
+        id: string;
+        name: string;
+        email: string;
+        role: UserRole;
+    }
+}
 export const AuthOptions: NextAuthOptions = {
+    callbacks: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        session: ({ session, token }: { session: any; token: JWT }) => {
+            if (token) {
+                session.user = session.user || {};
+                session.user.id = token.id;
+                session.user.name = token.name;
+                session.user.email = token.email;
+                session.user.role = token.role;
+                session.user.image = token.image as string;
+                session.user.country = token.country as string;
+                session.user.city = token.city as string;
+                session.user.postalCode = token.postalCode as string;
+                session.user.streetAddress = token.streetAddress as string;
+                session.user.phone = token.phone as string;
+            }
+            // return session;
+            return {
+                ...session,
+                user: {
+                    ...session.user,
+                    id: token.id,
+                    name: token.name,
+                    email: token.email,
+                    role: token.role,
+                    image: token.image,
+                },
+            }
+        },
+        jwt: async ({ token }): Promise<JWT> => {
+            const userDB = await db.user.findUnique({
+                where: {
+                    email: token.email
+                }
+            })
+            if (!userDB) {
+                return token
+            }
+            return {
+                id: userDB.id,
+                name: userDB.name,
+                email: userDB.email,
+                role: userDB.role,
+                image: userDB.image,
+                city: userDB.city,
+                country: userDB.country,
+                phone: userDB.phone,
+                streetAddress: userDB.streetAddress,
+                postalCode: userDB.postalCode,
+                createdAt: userDB.createdAt,
+                updatedAt: userDB.updatedAt,
+            }
+        },
+    },
     session: {
         strategy: "jwt",
         maxAge: 7 * 24 * 60 * 60, // 7 days

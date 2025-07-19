@@ -36,7 +36,7 @@ export const signIn = async (
 
         const isValidPassword = await bcrypt.compare(result.data.password || "", user.password);
         if (!isValidPassword) {
-            return { error: "Invalid password", status: 401 };
+            return { error: translations.messages.incorrectPassword, status: 401 };
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...userData } = user;
