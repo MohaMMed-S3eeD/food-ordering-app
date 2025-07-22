@@ -8,7 +8,6 @@ import { Translations } from "@/types/translations";
 const page = async () => {
   const locale = await getLocale();
   
-  // جلب كائن الترجمة الكامل
   const translations: Translations = await import(`@/messages/${locale}.json`).then(
     (module) => module.default
   );

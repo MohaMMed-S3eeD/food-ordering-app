@@ -1,31 +1,23 @@
 import React from "react";
+import EditUserForm from "@/components/editUserForm";
+import { Translations } from "@/types/translations";
+import { getLocale, getTranslations } from "next-intl/server";
+import { getServerSession } from "next-auth";
+import { AuthOptions } from "@/server/auth";
+const Admin = async () => {
+  const session = await getServerSession(AuthOptions);
 
-const page = () => {
+  const locale = await getLocale();
+  const t = await getTranslations("profile");
+  console.log(t);
+  const translations: Translations = await import(
+    `@/messages/${locale}.json`
+  ).then((module) => module.default);
   return (
-    <div className="min-h-screen bg-green-100 p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-green-800 mb-8 text-center">
-          🎉 ADMIN DASHBOARD 🎉
-        </h1>
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            مرحباً في لوحة الإدارة
-          </h2>
-          <p className="text-gray-600 text-lg">
-            تم تسجيل الدخول بنجاح كمدير للنظام
-          </p>
-          <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded">
-            <p className="text-green-800 font-medium">
-              ✅ الـ middleware بيشتغل صح
-            </p>
-            <p className="text-green-800 font-medium">
-              ✅ صفحة الإدارة محملة بنجاح
-            </p>
-          </div>
-        </div>
-      </div>
+    <div>
+      <EditUserForm translations={translations} session={session} />
     </div>
   );
 };
 
-export default page;
+export default Admin;

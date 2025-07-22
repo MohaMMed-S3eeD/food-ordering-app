@@ -9,6 +9,7 @@ import AuthBtn from "./AuthBtn";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/server/auth";
 import { getLocale, getTranslations } from "next-intl/server";
+import PageUser from "./PageUser";
 
 const Header = async () => {
   const t = await getTranslations("logo");
@@ -25,6 +26,9 @@ const Header = async () => {
             🍕 {t("logo")}
           </Link>
           <Navbar initialSession={session} />
+          <div className="hidden sm:block">
+            <PageUser initialSession={session} />
+          </div>
         </div>
         <div
           className={`flex flex-row items-center ${
@@ -37,6 +41,7 @@ const Header = async () => {
           <div className="hidden sm:block">
             <BtnChangeLang />
           </div>
+
           <CartButton />
         </div>
       </div>

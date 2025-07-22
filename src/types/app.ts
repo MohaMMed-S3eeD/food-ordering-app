@@ -17,7 +17,8 @@ export interface IOption {
       | "radio"
       | "select"
       | "hidden"
-      | "textarea";
+      | "textarea"
+      | "tel";
     placeholder?: string;
     disabled?: boolean;
     autoFocus?: boolean;

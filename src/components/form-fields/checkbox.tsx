@@ -19,7 +19,7 @@ const Checkbox = ({ label, name, checked, onClick }: Props) => {
         onClick={onClick}
         checked={checked}
       />
-      <Label htmlFor={name} className="text-sm font-normal">
+      <Label htmlFor={name} className="text-sm font-normal cursor-pointer text-black">
         {label}
       </Label>
     </div>

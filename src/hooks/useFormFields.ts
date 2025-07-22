@@ -1,4 +1,4 @@
-import { Pages } from "@/constants/enums";
+import { Pages, Routes } from "@/constants/enums";
 import { IFormField, IFormFieldsVariables } from "@/types/app";
 import { Translations } from "@/types/translations";
 
@@ -58,29 +58,53 @@ const useFormFields = ({ slug, translations }: Props) => {
             type: "password",
             placeholder: translations.auth.register.confirmPassword.placeholder,
         },
-        // {
-        //     label: "Phone",
-        //     name: "phone",
-        //     type: "text",
-        //     placeholder: "+201000000000",
-        //     autoFocus: true,
-        //     disabled: false,
-        //     readOnly: false,
-        // },
-        // {
-        //     label: "Address",
-        //     name: "address",
-        //     type: "text",
-        //     placeholder: "123 Main St, Anytown, USA",
-        // },
-        // {
-        //     label: "City",
-        //     name: "city",
-        //     type: "text",
-        //     placeholder: "Anytown",
-        // },
-
+        
     ]
+    const profileFields = (): IFormField[] => [
+        {
+          label: translations.profile.form.name.label,
+          name: "name",
+          type: "text",
+          placeholder: translations.profile.form.name.placeholder,
+          autoFocus: true,
+        },
+        {
+          label: translations.profile.form.email.label,
+          name: "email",
+          type: "email",
+          placeholder: translations.profile.form.email.placeholder,
+        },
+        {
+          label: translations.profile.form.phone.label,
+          name: "phone",
+          type: "text",
+          placeholder: translations.profile.form.phone.placeholder,
+        },
+        {
+          label: translations.profile.form.address.label,
+          name: "streetAddress",
+          type: "text",
+          placeholder: translations.profile.form.address.placeholder,
+        },
+        {
+          label: translations.profile.form.postalCode.label,
+          name: "postalCode",
+          type: "text",
+          placeholder: translations.profile.form.postalCode.placeholder,
+        },
+        {
+          label: translations.profile.form.city.label,
+          name: "city",
+          type: "text",
+          placeholder: translations.profile.form.city.placeholder,
+        },
+        {
+          label: translations.profile.form.country.label,
+          name: "country",
+          type: "text",
+          placeholder: translations.profile.form.country.placeholder,
+        },
+      ];
 
     const getFields = () => {
         switch (slug) {
@@ -88,6 +112,8 @@ const useFormFields = ({ slug, translations }: Props) => {
                 return loginFields();
             case Pages.Register:
                 return registerFields();
+            case Routes.PROFILE:
+                return profileFields();
             default:
                 return [];
         }

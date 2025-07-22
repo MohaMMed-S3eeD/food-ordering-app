@@ -38,7 +38,8 @@ export default withAuth(
       if (role === UserRole.ADMIN) {
         return NextResponse.redirect(new URL(`/${currentLocale}/${Routes.ADMIN}`, req.url));
       }
-      return NextResponse.next();
+      // مرر التحكم لـ intlMiddleware للتعامل مع تغيير اللغة
+      return intlMiddleware(req);
     }
     //* Admin route protection
     if (isAuth && pathname.startsWith(`/${currentLocale}/${Routes.ADMIN}`)) {
@@ -46,7 +47,8 @@ export default withAuth(
       if (role !== UserRole.ADMIN) {
         return NextResponse.redirect(new URL(`/${currentLocale}/${Routes.PROFILE}`, req.url));
       }
-      return NextResponse.next();
+      // مرر التحكم لـ intlMiddleware للتعامل مع تغيير اللغة
+      return intlMiddleware(req);
     }
 
     return intlMiddleware(req);

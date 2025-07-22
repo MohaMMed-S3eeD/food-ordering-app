@@ -14,6 +14,18 @@ declare module "next-auth" {
     interface Session extends DefaultSession {
         user: User;
     }
+    interface User {
+        id: string;
+        name: string;
+        email: string;
+        role: UserRole;
+        image?: string;
+        country?: string;
+        city?: string;
+        postalCode?: string;
+        streetAddress?: string;
+        phone?: string;
+    }
 }
 declare module "next-auth/jwt" {
     interface JWT extends Partial<User> {
@@ -67,12 +79,12 @@ export const AuthOptions: NextAuthOptions = {
                 name: userDB.name,
                 email: userDB.email,
                 role: userDB.role,
-                image: userDB.image,
-                city: userDB.city,
-                country: userDB.country,
-                phone: userDB.phone,
-                streetAddress: userDB.streetAddress,
-                postalCode: userDB.postalCode,
+                image: userDB.image as string,
+                city: userDB.city as string,
+                country: userDB.country as string,
+                phone: userDB.phone as string,
+                streetAddress: userDB.streetAddress as string,
+                postalCode: userDB.postalCode as string,
                 createdAt: userDB.createdAt,
                 updatedAt: userDB.updatedAt,
             }
@@ -105,7 +117,21 @@ export const AuthOptions: NextAuthOptions = {
 
                     const res = await signIn(credentials, safeLocale);
                     if (res.status === 200 && res.userData) {
-                        return { ...res.userData, message: res.message, locale: currentLocale };
+                        // Return only User interface properties and convert null to undefined
+                        return {
+                            id: res.userData.id,
+                            name: res.userData.name,
+                            email: res.userData.email,
+                            role: res.userData.role,
+                            image: res.userData.image || undefined,
+                            country: res.userData.country || undefined,
+                            city: res.userData.city || undefined,
+                            postalCode: res.userData.postalCode || undefined,
+                            streetAddress: res.userData.streetAddress || undefined,
+                            phone: res.userData.phone || undefined,
+                            message: res.message,
+                            locale: currentLocale,
+                        };
                     } else {
                         throw new Error(
                             JSON.stringify({
