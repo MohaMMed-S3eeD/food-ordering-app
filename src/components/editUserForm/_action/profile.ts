@@ -12,12 +12,12 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
     const translations: Translations = await import(`@/messages/${locale}.json`).then(
         (module) => module.default
     );
-
     const schema = updateProfileSchema(translations);
     const validatedFields = schema.safeParse({
         ...Object.fromEntries(formData.entries())
     });
 
+        console.log(Object.fromEntries(formData.entries()))
     if (!validatedFields.success) {
         return {
             error: validatedFields.error.flatten().fieldErrors,
@@ -26,6 +26,11 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
         };
     }
     const data = validatedFields.data;
+    const imageFile = data.image as File;
+    const imageUrl = Boolean(imageFile.size)
+        ? await getImageUrl(imageFile)
+        : undefined;
+
     try {
 
         const user = await db.user.findUnique({
@@ -53,6 +58,7 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
                 phone: data.phone,
                 streetAddress: data.streetAddress,
                 postalCode: data.postalCode,
+                image: imageUrl ?? user.image,
             },
         });
         if (!updatedUser) {
@@ -84,4 +90,24 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
         formData,
     };
 
+};
+
+const getImageUrl = async (imageFile: File) => {
+    const formData = new FormData();
+    formData.append("file", imageFile);
+    formData.append("pathName", "profile_images");
+
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/upload`,
+            {
+                method: "POST",
+                body: formData,
+            }
+        );
+        const image = (await response.json()) as { url: string };
+        return image.url;
+    } catch (error) {
+        console.error("Error uploading file to Cloudinary:", error);
+    }
 };
