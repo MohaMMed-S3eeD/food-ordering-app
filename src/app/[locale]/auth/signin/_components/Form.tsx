@@ -18,7 +18,6 @@ const Form = ({ translation }: { translation: Translations }) => {
     slug: Pages.LOGIN,
     translations: translation,
   });
-  console.log(getFields());
   const [loading, setLoading] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const OnSubmit = async (e: React.FormEvent) => {

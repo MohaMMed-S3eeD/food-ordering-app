@@ -11,7 +11,6 @@ import { Session } from "next-auth";
 const AuthBtn = ({ initialSession }: { initialSession: Session | null }) => {
   const t2 = useTranslations("navbar");
   const session = useClientSession(initialSession);
-  console.log(session);
   return session.data?.user ? (
     <Link
       onClick={() => {

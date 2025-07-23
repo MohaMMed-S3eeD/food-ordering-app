@@ -11,9 +11,7 @@ export const signIn = async (
     credentials: Record<"email" | "password", string> | undefined,
     locale: Locale
 ) => {
-    console.log(locale);
 
-    // استيراد ملف الترجمة المناسب حسب الـ locale
     const translations: Translations = await import(`@/messages/${locale}.json`).then(
         (module) => module.default
     );
@@ -49,7 +47,6 @@ export const signIn = async (
 
 
 export const signUp = async (prevState: unknown, formData: FormData) => {
-    console.log(formData);
     const locale = await getLocale();
     const translations: Translations = await import(`@/messages/${locale}.json`).then(
         (module) => module.default

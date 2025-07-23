@@ -5,23 +5,12 @@ import React, { useActionState, useEffect } from "react";
 import FormFields from "@/components/form-fields/form-fields";
 import { Translations } from "@/types/translations";
 import { signUp } from "@/server/_action/auth";
-// import { ValidationErrors } from "@/validations/auth";
 import { toast } from "sonner";
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/[locale]/_components/Loading";
 
-// const initialState: {
-//   message: string;
-//   error: ValidationErrors;
-//   status: number | null;
-//   userData: FormData | null;
-// } = {
-//   message: "",
-//   error: {},
-//   status: null,
-//   userData: null,
-// };
+
 const initialState: {
   message: string;
   status: number;
@@ -35,11 +24,7 @@ const Form = ({ translation }: { translation: Translations }) => {
   const router = useRouter();
   const locale = useLocale();
   const [state, action, isPending] = useActionState(signUp, initialState);
-  const Data = state?.formData; // {"name": "ssss","email": "","password": "","confirmPassword": ""}
 
-  console.log("Data", Data);
-
-  console.log("state from Form", state);
   useEffect(() => {
     if (state?.message && state.status === 400) {
       const listErrors = state.message.split(",");

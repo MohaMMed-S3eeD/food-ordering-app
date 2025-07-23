@@ -5,7 +5,6 @@ import { getProductsByCategory } from "@/server/db/products";
 
 async function menu() {
   const categories = await getProductsByCategory();
-  console.log(categories);
   return (
     <main className="section-gap " id={Routes.MENU}>
       <div className="container">
