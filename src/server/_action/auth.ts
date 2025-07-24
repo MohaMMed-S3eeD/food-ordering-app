@@ -77,7 +77,6 @@ export const signUp = async (prevState: unknown, formData: FormData) => {
         }
         // hash password
         const hashedPassword = await bcrypt.hash(result.data.password, 10);
-        //Todo logic to create user 02:45:00
         const newUser = await db.user.create({
             data: {
                 email: result.data.email,

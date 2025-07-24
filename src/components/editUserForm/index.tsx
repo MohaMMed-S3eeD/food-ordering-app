@@ -11,9 +11,7 @@ import { updateProfile } from "./_action/profile";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-{
-  /* todo : Solve Cashe problem https://youtu.be/hDrt1ifv94o?t=19531 */
-}
+
 
 const EditUserForm = ({
   translations,
@@ -36,8 +34,12 @@ const EditUserForm = ({
   };
   const [selectedImage, setSelectedImage] = useState(session?.user.image || "");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isAdmin, setIsAdmin] = useState(session?.user.role === UserRole.ADMIN);
   // @ts-expect-error - Type mismatch between useActionState and updateProfile
-  const [state, action, isPending] = useActionState(updateProfile, initState);
+  const [state, action, isPending] = useActionState(
+    updateProfile.bind(null, isAdmin),
+    initState
+  );
   const { getFields } = useFormFields({
     slug: Routes.PROFILE,
     translations,
@@ -65,7 +67,7 @@ const EditUserForm = ({
       }
     }
   }, [state, isPending]);
-  
+
   return (
     <div className="mx-auto max-w-2xl bg-white  shadow-md ">
       {/* Header */}
@@ -87,8 +89,8 @@ const EditUserForm = ({
                     priority
                   />
 
-                  <UploadImage 
-                    setSelectedImage={setSelectedImage} 
+                  <UploadImage
+                    setSelectedImage={setSelectedImage}
                     setSelectedFile={setSelectedFile}
                   />
                 </div>
@@ -102,12 +104,12 @@ const EditUserForm = ({
               </p>
             </div>
           </div>
-          
+
           {/* Hidden input for the file */}
           {selectedFile && (
             <input type="hidden" name="hasNewImage" value="true" />
           )}
-          
+
           {getFields().map((field) => {
             const fieldValue =
               state.formData?.get(field.name) ?? formData.get(field.name);
@@ -125,7 +127,10 @@ const EditUserForm = ({
             <Checkbox
               label={translations.navbar.admin}
               name="isAdmin"
-              checked={session?.user.role === UserRole.ADMIN}
+              onClick={() => {
+                setIsAdmin(!isAdmin);
+              }}
+              checked={isAdmin}
             />
           )}
           <button

@@ -7,7 +7,6 @@ import { AuthOptions } from "@/server/auth";
 
 const Profile = async () => {
   const session = await getServerSession(AuthOptions);
-  
   const locale = await getLocale();
   const translations: Translations = await import(
     `@/messages/${locale}.json`

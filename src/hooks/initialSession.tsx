@@ -19,3 +19,19 @@ export const useClientSession = (initialSession: Session | null) => {
   }, [initialSession]);
   return { data: currentSession, status };
 };
+export const useClientSession2 = (initialSession: Session | null) => {
+  const { data: session } = useSession();
+  const [currentSession, setCurrentSession] = useState(initialSession);
+  useEffect(() => {
+    if (session) {
+      setCurrentSession(session);
+    }
+  }, [session]);
+
+  useEffect(() => {
+    if (initialSession) {
+      setCurrentSession(initialSession);
+    }
+  }, [initialSession]);
+  return currentSession;
+};

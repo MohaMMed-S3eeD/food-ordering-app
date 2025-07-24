@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import { Session } from "next-auth";
 import AuthBtn from "./AuthBtn";
 
-//todo : add Link Profile Or Admin 04:00:00
+
 
 const Navbar = ({ initialSession }: { initialSession: Session | null }) => {
   const t = useTranslations("navbar");

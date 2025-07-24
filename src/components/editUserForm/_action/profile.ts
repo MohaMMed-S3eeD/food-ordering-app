@@ -5,8 +5,9 @@ import { Translations } from "@/types/translations";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import cloudinary from "@/lib/cloudinary";
+import { UserRole } from "@prisma/client";
 
-export const updateProfile = async (prevState: unknown, formData: FormData) => {
+export const updateProfile = async (isAdmin: boolean, prevState: unknown, formData: FormData) => {
     const locale = await getLocale();
 
     const translations: Translations = await import(`@/messages/${locale}.json`).then(
@@ -87,11 +88,11 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
                 postalCode: data.postalCode,
                 city: data.city,
                 country: data.country,
-                // استخدم الصورة الجديدة إذا تم رفعها، وإلا احتفظ بالصورة القديمة
                 image: imageUrl || user.image,
+                role: isAdmin ? UserRole.ADMIN : UserRole.USER,
             },
         });
-
+        
         if (!updatedUser) {
             return {
                 error: {
@@ -121,6 +122,7 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
         status: "success",
         formData,
     };
+    
 };
 
 // دالة رفع الصورة مباشرة إلى Cloudinary
