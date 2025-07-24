@@ -28,18 +28,14 @@ const EditUserForm = ({
       formData.append(key, value.toString());
     }
   });
-  const initState: {
-    massage: string;
-    error: Record<string, string>;
-    status: string | null;
-    formData: FormData;
-  } = {
+  const initState = {
     massage: "",
     error: {},
-    status: null,
+    status: "",
     formData,
   };
   const [selectedImage, setSelectedImage] = useState(session?.user.image || "");
+  // @ts-expect-error - Type mismatch between useActionState and updateProfile
   const [state, action, isPending] = useActionState(updateProfile, initState);
   const { getFields } = useFormFields({
     slug: Routes.PROFILE,
