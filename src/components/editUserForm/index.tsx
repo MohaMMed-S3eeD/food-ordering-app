@@ -35,6 +35,7 @@ const EditUserForm = ({
     formData,
   };
   const [selectedImage, setSelectedImage] = useState(session?.user.image || "");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   // @ts-expect-error - Type mismatch between useActionState and updateProfile
   const [state, action, isPending] = useActionState(updateProfile, initState);
   const { getFields } = useFormFields({
@@ -64,19 +65,14 @@ const EditUserForm = ({
       }
     }
   }, [state, isPending]);
+  
   return (
     <div className="mx-auto max-w-2xl bg-white  shadow-md ">
       {/* Header */}
 
       {/* Form */}
       <div className="p-6">
-        <form
-          className="space-y-4"
-          action={action}
-          onSubmit={() => {
-            formData.append("image", selectedImage);
-          }}
-        >
+        <form className="space-y-4" action={action}>
           <div className="bg-gradient-to-br from-primary to-primary/80 px-6 py-10 text-center rounded-t-xl relative overflow-hidden">
             <div className="absolute inset-0 bg-black/5"></div>
             <div className="relative z-10">
@@ -91,7 +87,10 @@ const EditUserForm = ({
                     priority
                   />
 
-                  <UploadImage setSelectedImage={setSelectedImage} />
+                  <UploadImage 
+                    setSelectedImage={setSelectedImage} 
+                    setSelectedFile={setSelectedFile}
+                  />
                 </div>
               </div>
 
@@ -103,6 +102,12 @@ const EditUserForm = ({
               </p>
             </div>
           </div>
+          
+          {/* Hidden input for the file */}
+          {selectedFile && (
+            <input type="hidden" name="hasNewImage" value="true" />
+          )}
+          
           {getFields().map((field) => {
             const fieldValue =
               state.formData?.get(field.name) ?? formData.get(field.name);
@@ -124,9 +129,9 @@ const EditUserForm = ({
             />
           )}
           <button
-            // onClick={() => handleSubmit()}
             type="submit"
-            className="w-full bg-primary hover:bg-primary/90 text-white py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 font-medium shadow-sm hover:shadow-md"
+            disabled={isPending}
+            className="w-full bg-primary hover:bg-primary/90 disabled:opacity-50 text-white py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 font-medium shadow-sm hover:shadow-md flex items-center justify-center gap-2"
           >
             {translations.save}
             {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
@@ -141,8 +146,10 @@ export default EditUserForm;
 
 const UploadImage = ({
   setSelectedImage,
+  setSelectedFile,
 }: {
   setSelectedImage: (image: string) => void;
+  setSelectedFile: (file: File | null) => void;
 }) => {
   return (
     <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 ease-in-out z-50">
@@ -156,6 +163,7 @@ const UploadImage = ({
           const file = e.target.files?.[0];
           if (file) {
             setSelectedImage(URL.createObjectURL(file));
+            setSelectedFile(file);
           }
         }}
       />
