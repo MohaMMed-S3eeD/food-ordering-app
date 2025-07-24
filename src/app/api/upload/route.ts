@@ -1,6 +1,6 @@
 import cloudinary from "@/lib/cloudinary";
 import { NextResponse } from "next/server";
-
+export const dynamic = "force-dynamic";
 // Define the type for the form data file
 type FormDataFile = Blob & {
     name?: string; // Optional: Some browsers may add this
@@ -8,7 +8,7 @@ type FormDataFile = Blob & {
 
 export async function POST(request: Request) {
     console.log("Upload API called");
-    
+
     try {
         const formData = await request.formData();
         const file = formData.get("file") as FormDataFile | null;
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
         }
 
         // تحقق من حجم الملف (5MB حد أقصى)
-        const maxSize = 5 * 1024 * 1024; // 5MB
+        const maxSize = 1 * 1024 * 1024; // 5MB
         if (file.size > maxSize) {
             console.error("File too large:", file.size);
             return NextResponse.json({ error: "File size must be less than 5MB" }, { status: 400 });
@@ -52,13 +52,13 @@ export async function POST(request: Request) {
         }
 
         console.log("Converting file to base64...");
-        
+
         // Convert the file to a format Cloudinary can handle (Buffer or Base64)
         const fileBuffer = await file.arrayBuffer();
         const base64File = Buffer.from(fileBuffer).toString("base64");
-        
+
         console.log("Uploading to Cloudinary...");
-        
+
         // Upload to Cloudinary
         const uploadResponse = await cloudinary.uploader.upload(
             `data:${file.type};base64,${base64File}`,
@@ -77,22 +77,22 @@ export async function POST(request: Request) {
             secure_url: uploadResponse.secure_url
         });
 
-        return NextResponse.json({ 
+        return NextResponse.json({
             url: uploadResponse.secure_url,
-            public_id: uploadResponse.public_id 
+            public_id: uploadResponse.public_id
         });
-        
+
     } catch (error) {
         console.error("Error uploading file to Cloudinary:", error);
-        
+
         // تفاصيل أكثر للخطأ
         if (error instanceof Error) {
             console.error("Error message:", error.message);
             console.error("Error stack:", error.stack);
         }
-        
+
         return NextResponse.json(
-            { 
+            {
                 error: "Failed to upload image",
                 details: error instanceof Error ? error.message : "Unknown error"
             },
@@ -105,15 +105,15 @@ export async function GET() {
     try {
         // تحقق من إعدادات Cloudinary
         const isConfigured = !!(
-            process.env.CLOUDINARY_CLOUD_NAME && 
-            process.env.CLOUDINARY_API_KEY && 
+            process.env.CLOUDINARY_CLOUD_NAME &&
+            process.env.CLOUDINARY_API_KEY &&
             process.env.CLOUDINARY_API_SECRET
         );
 
-        return NextResponse.json({ 
-            message: "Upload API is running", 
+        return NextResponse.json({
+            message: "Upload API is running",
             cloudinaryConfigured: isConfigured,
-            data: "Use POST request to upload files to Cloudinary" 
+            data: "Use POST request to upload files to Cloudinary"
         });
     } catch (error) {
         console.error(error);

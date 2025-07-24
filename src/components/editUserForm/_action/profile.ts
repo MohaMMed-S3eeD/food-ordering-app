@@ -17,7 +17,7 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
     });
 
     console.log("Form Data Entries:", Object.fromEntries(formData.entries()));
-    
+
     if (!validatedFields.success) {
         console.error("Validation Error:", validatedFields.error);
         return {
@@ -26,19 +26,19 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
             formData,
         };
     }
-    
+
     const data = validatedFields.data;
     const imageFile = data.image as File;
-    
+
     console.log("Image File Info:", {
         name: imageFile?.name,
         size: imageFile?.size,
         type: imageFile?.type,
         hasFile: Boolean(imageFile?.size)
     });
-    
+
     let imageUrl: string | undefined;
-    
+
     // تحقق من وجود ملف صورة جديد
     if (imageFile && imageFile.size > 0) {
         try {
@@ -63,7 +63,7 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
                 email: data.email,
             },
         });
-        
+
         if (!user) {
             return {
                 error: {
@@ -73,7 +73,7 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
                 formData,
             };
         }
-        
+
         const updatedUser = await db.user.update({
             where: {
                 email: user.email,
@@ -88,7 +88,7 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
                 image: imageUrl || user.image,
             },
         });
-        
+
         if (!updatedUser) {
             return {
                 error: {
@@ -98,7 +98,7 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
                 formData,
             };
         }
-        
+
         revalidatePath("/profile");
         console.log("Profile updated successfully");
 
@@ -122,17 +122,20 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
 
 const getImageUrl = async (imageFile: File) => {
     console.log("Preparing to upload file:", imageFile.name, imageFile.size);
-    
+
     const formData = new FormData();
     formData.append("file", imageFile);
     formData.append("pathName", "profile_images");
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.VERCEL_URL;
-    
+    const baseUrl =
+        process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : `https://${process.env.VERCEL_URL}`;
+
     if (!baseUrl) {
         throw new Error("NEXT_PUBLIC_BASE_URL is not defined");
     }
-    
+
     const uploadUrl = `${baseUrl}/api/upload`;
     console.log("Upload URL:", uploadUrl);
 
@@ -141,22 +144,22 @@ const getImageUrl = async (imageFile: File) => {
             method: "POST",
             body: formData,
         });
-        
+
         console.log("Upload response status:", response.status);
-        
+
         if (!response.ok) {
             const errorText = await response.text();
             console.error("Upload failed:", errorText);
             throw new Error(`Upload failed: ${response.status} - ${errorText}`);
         }
-        
+
         const result = await response.json();
         console.log("Upload result:", result);
-        
+
         if (!result.url) {
             throw new Error("No URL returned from upload");
         }
-        
+
         return result.url;
     } catch (error) {
         console.error("Error uploading file to Cloudinary:", error);
