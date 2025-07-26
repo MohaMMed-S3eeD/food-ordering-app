@@ -1,9 +1,8 @@
 import { Category, Product } from "@prisma/client";
 import { useTranslations } from "next-intl";
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
 import { EditCategory } from "./EditCategory";
+import DeleteCategory from "./DeleteCategory";
 
 const CategoryCard = ({
   category,
@@ -27,21 +26,12 @@ const CategoryCard = ({
           </p>
         </div>
         <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Button
-            size="sm"
-            variant="ghost"
-            className="h-8 w-8 p-0 text-muted-foreground hover:text-primary hover:bg-primary/10"
-          >
+          <div>
             <EditCategory category={category} />
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-          >
-            <Trash2 className="h-4 w-4" />
-            <span className="sr-only">{t("delete")}</span>
-          </Button>
+          </div>
+          <div>
+            <DeleteCategory category={category} />
+          </div>
         </div>
       </div>
     </div>

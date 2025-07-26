@@ -86,4 +86,34 @@ const updateCategory = async (prevState: unknown, formData: FormData) => {
         };
     }
 }
-export { addCategory, updateCategory };
+
+const deleteCategory = async (prevState: unknown, formData: FormData) => {
+    const locale = await getLocale();
+    const tmessage = await getTranslations("messages");
+
+    const id = formData.get("id") as string;
+
+    try {
+        await db.category.delete({
+            where: { id },
+        });
+        revalidateTag("categories");
+        revalidateTag("products-by-category");
+        revalidatePath(`/${locale}/${Routes.ADMIN}/${Pages.CATEGORIES}`);
+        revalidatePath(`/${locale}/${Routes.MENU}`);
+        return {
+            message: tmessage("deletecategorySucess"),
+            error: {},
+            status: 200,
+        };
+    } catch (error) {
+        console.error(error);
+        return {
+            status: 500,
+            error: { general: tmessage("unexpectedError") },
+        };
+    }
+}
+
+export { addCategory, updateCategory, deleteCategory };
+
