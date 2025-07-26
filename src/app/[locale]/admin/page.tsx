@@ -13,7 +13,6 @@ const Admin = async () => {
   ).then((module) => module.default);
   return (
     <div>
-      <h1>Admin</h1>
       <EditUserForm translations={translations} session={session} />
     </div>
   );

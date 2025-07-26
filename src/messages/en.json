@@ -173,6 +173,10 @@
       "orders": "Orders"
     },
     "categories": {
+      "edit": {
+        "title": "Edit Category",
+        "description": "Update the category information below."
+      },
       "form": {
         "editName": "Change Category Name",
         "name": {
@@ -228,6 +232,7 @@
     }
   },
   "category": "Category",
+  "products": "Products",
   "save": "Save",
   "edit": "Edit",
   "delete": "Delete",
@@ -241,5 +246,6 @@
   },
   "copyRight": "© 2024 All rights reserved",
   "noProductsFound": "No products found",
-  "noCategoriesFound": "No categories found"
+  "noCategoriesFound": "No categories found",
+  "saving": "Saving..."
 }

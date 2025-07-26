@@ -29,7 +29,7 @@ export const getProductsByCategory = cache(
       return products;
     },
     ["products-by-category"],
-    { revalidate: 3600 }
+    { revalidate: 3600, tags: ["products-by-category", "categories"] }
   );
 export const getProducts = cache(async (limit: number) => {
     const products = await db.product.findMany({

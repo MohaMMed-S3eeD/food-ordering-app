@@ -173,6 +173,10 @@
       "orders": "الطلبات"
     },
     "categories": {
+      "edit": {
+        "title": "تعديل الفئة",
+        "description": "قم بتحديث معلومات الفئة أدناه."
+      },
       "form": {
         "editName": "تعديل اسم الفئة",
         "name": {
@@ -228,6 +232,7 @@
     }
   },
   "category": "الفئة",
+  "products": "المنتجات",
   "save": "حفظ",
   "edit": "تعديل",
   "delete": "حذف",
@@ -242,5 +247,6 @@
 
   "copyRight": "© 2024 جميع الحقوق محفوظة",
   "noProductsFound": "لم يتم العثور على منتجات",
-  "noCategoriesFound": "لم يتم العثور على الفئات"
+  "noCategoriesFound": "لم يتم العثور على الفئات",
+  "saving": "جاري الحفظ..."
 }
