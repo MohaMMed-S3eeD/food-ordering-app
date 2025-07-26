@@ -4,7 +4,7 @@ import { Translations } from "@/types/translations";
 import { getLocale } from "next-intl/server";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/server/auth";
-// todo : Create Tabs for Admin Dashboard https://youtu.be/hDrt1ifv94o?t=21172
+// todo : https://youtu.be/hDrt1ifv94o
 const Admin = async () => {
   const session = await getServerSession(AuthOptions);
   const locale = await getLocale();

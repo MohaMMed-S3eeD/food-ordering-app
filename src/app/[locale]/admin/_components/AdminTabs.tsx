@@ -5,7 +5,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { Pages, Routes } from "@/constants/enums";
 import { usePathname } from "next/navigation";
 
-// todo https://youtu.be/hDrt1ifv94o?t=21644 Create Cat
 const AdminTabs = () => {
   const t = useTranslations("admin");
   const pathname = usePathname();

@@ -58,7 +58,7 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
         basePrice: totalPrice,
         image: Product.imageUrl,
         quantity: 1,
-        size: selectedSize.name,
+        size: selectedSize?.name || "",
         extra: selectedExtra,
       })
     );
@@ -68,7 +68,7 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
     dispatch(
       removeFromCart({
         id: Product.id,
-        size: selectedSize.name,
+        size: selectedSize?.name || "",
         extra: selectedExtra,
       })
     );
@@ -77,7 +77,7 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
 
   const itemQuantity = getSpecificItemQuantity(
     Product.id,
-    selectedSize.name,
+    selectedSize?.name || "",
     selectedExtra,
     Cart
   );
@@ -151,7 +151,7 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
                     dispatch(
                       removeItemFromCart({
                         id: Product.id,
-                        size: selectedSize.name,
+                        size: selectedSize?.name || "",
                         extra: selectedExtra,
                       })
                     )
@@ -206,7 +206,7 @@ function RadioGroupDemo({
       {sizes.map((size) => (
         <div key={size.id} className="flex items-center gap-3 border-b pb-2">
           <RadioGroupItem
-            value={selectedSize.name}
+            value={selectedSize?.name || ""}
             checked={selectedSize.id === size.id}
             id={size.id}
             onClick={() => setSelectedSize(size)}
