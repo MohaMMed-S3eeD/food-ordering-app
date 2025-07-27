@@ -247,5 +247,6 @@
   "copyRight": "© 2024 All rights reserved",
   "noProductsFound": "No products found",
   "noCategoriesFound": "No categories found",
-  "saving": "Saving..."
+  "saving": "Saving...",
+  "loading": "Loading..."
 }
