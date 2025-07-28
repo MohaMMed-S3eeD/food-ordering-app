@@ -57,53 +57,75 @@ const useFormFields = ({ slug, translations }: Props) => {
             type: "password",
             placeholder: translations.auth.register.confirmPassword.placeholder,
         },
-        
+
     ]
     const profileFields = (): IFormField[] => [
         {
-          label: translations.profile.form.name.label,
-          name: "name",
-          type: "text",
-          placeholder: translations.profile.form.name.placeholder,
-          autoFocus: true,
+            label: translations.profile.form.name.label,
+            name: "name",
+            type: "text",
+            placeholder: translations.profile.form.name.placeholder,
+            autoFocus: true,
         },
         {
-          label: translations.profile.form.email.label,
-          name: "email",
-          type: "email",
-          placeholder: translations.profile.form.email.placeholder,
+            label: translations.profile.form.email.label,
+            name: "email",
+            type: "email",
+            placeholder: translations.profile.form.email.placeholder,
         },
         {
-          label: translations.profile.form.phone.label,
-          name: "phone",
-          type: "text",
-          placeholder: translations.profile.form.phone.placeholder,
+            label: translations.profile.form.phone.label,
+            name: "phone",
+            type: "text",
+            placeholder: translations.profile.form.phone.placeholder,
         },
         {
-          label: translations.profile.form.address.label,
-          name: "streetAddress",
-          type: "text",
-          placeholder: translations.profile.form.address.placeholder,
+            label: translations.profile.form.address.label,
+            name: "streetAddress",
+            type: "text",
+            placeholder: translations.profile.form.address.placeholder,
         },
         {
-          label: translations.profile.form.postalCode.label,
-          name: "postalCode",
-          type: "text",
-          placeholder: translations.profile.form.postalCode.placeholder,
+            label: translations.profile.form.postalCode.label,
+            name: "postalCode",
+            type: "text",
+            placeholder: translations.profile.form.postalCode.placeholder,
         },
         {
-          label: translations.profile.form.city.label,
-          name: "city",
-          type: "text",
-          placeholder: translations.profile.form.city.placeholder,
+            label: translations.profile.form.city.label,
+            name: "city",
+            type: "text",
+            placeholder: translations.profile.form.city.placeholder,
         },
         {
-          label: translations.profile.form.country.label,
-          name: "country",
-          type: "text",
-          placeholder: translations.profile.form.country.placeholder,
+            label: translations.profile.form.country.label,
+            name: "country",
+            type: "text",
+            placeholder: translations.profile.form.country.placeholder,
         },
-      ];
+    ];
+    const addProductFields = (): IFormField[] => [
+        {
+            label: translations.admin["menu-items"].form.name.label,
+            name: "name",
+            type: "text",
+            placeholder: translations.admin["menu-items"].form.name.placeholder,
+        },
+        {
+            label: translations.admin["menu-items"].form.description.label,
+            name: "description",
+            type: "text",
+            placeholder: translations.admin["menu-items"].form.description.placeholder,
+        },
+        {
+            label: translations.admin["menu-items"].form.basePrice.label,
+            name: "basePrice",
+            type: "text",
+            placeholder: translations.admin["menu-items"].form.basePrice.placeholder,
+        },
+
+
+    ]
 
     const getFields = () => {
         switch (slug) {
@@ -113,6 +135,8 @@ const useFormFields = ({ slug, translations }: Props) => {
                 return registerFields();
             case Routes.PROFILE:
                 return profileFields();
+            case `${Pages.MENU_ITEMS}/new`:
+                return addProductFields();
             default:
                 return [];
         }
