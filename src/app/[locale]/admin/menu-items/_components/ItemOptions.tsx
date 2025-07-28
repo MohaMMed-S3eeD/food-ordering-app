@@ -66,6 +66,7 @@ const ItemOptions = ({
     | React.Dispatch<React.SetStateAction<Partial<Size>[]>>
     | React.Dispatch<React.SetStateAction<Partial<Extra>[]>>;
 }) => {
+  console.log(extraNames);
   const { addOption, onChange, removeOption } = handleOptions(setState);
   console.log(state);
   return (

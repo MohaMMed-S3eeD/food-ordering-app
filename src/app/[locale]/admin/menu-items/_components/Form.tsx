@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import FormFields from "@/components/form-fields/form-fields";
 import { Button } from "@/components/ui/button";
@@ -202,7 +203,9 @@ const AddExtra = ({
       className="w-full bg-gray-100 rounded-lg px-4 mb-4"
     >
       <AccordionItem value="item-2">
-        <AccordionTrigger>{t.admin["menu-items"].addExtraItem}</AccordionTrigger>
+        <AccordionTrigger>
+          {t.admin["menu-items"].addExtraItem}
+        </AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">
           <ItemOptions t={t} type="extra" state={extras} setState={setExtras} />
         </AccordionContent>
@@ -210,3 +213,4 @@ const AddExtra = ({
     </Accordion>
   );
 };
+console.log(AddExtra);
