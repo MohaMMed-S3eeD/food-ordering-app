@@ -26,7 +26,8 @@ const Form = ({
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [idCategory, setIdCategory] = useState(categories[0].id);
-  const [sizes, setSizes] = useState<Size[]>([]);
+  const [sizes, setSizes] = useState<Partial<Size>[]>([]);
+  const [extras, setExtras] = useState<Partial<Extra>[]>([]);
   const { getFields } = useFormFields({
     slug: `${Pages.MENU_ITEMS}/new`,
     translations: t,
@@ -92,6 +93,7 @@ const Form = ({
         setIdCategory={setIdCategory}
       />
       <AddSize t={t} sizes={sizes} setSizes={setSizes} />
+      <AddExtra t={t} extras={extras} setExtras={setExtras} />
       <FormAction t={t} />
     </form>
   );
@@ -168,8 +170,8 @@ const AddSize = ({
   setSizes,
 }: {
   t: Translations;
-  sizes: Size[];
-  setSizes: (sizes: Size[]) => void;
+  sizes: Partial<Size>[];
+  setSizes: React.Dispatch<React.SetStateAction<Partial<Size>[]>>;
 }) => {
   return (
     <Accordion
@@ -180,7 +182,7 @@ const AddSize = ({
       <AccordionItem value="item-1">
         <AccordionTrigger>{t.sizes}</AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">
-          <ItemOptions t={t} state={sizes} setState={setSizes} />
+          <ItemOptions t={t} state={sizes} setState={setSizes} type="size" />
         </AccordionContent>
       </AccordionItem>
     </Accordion>
@@ -193,8 +195,8 @@ const AddExtra = ({
   setExtras,
 }: {
   t: Translations;
-  extras: Extra[];
-  setExtras: (extras: Extra[]) => void;
+  extras: Partial<Extra>[];
+  setExtras: React.Dispatch<React.SetStateAction<Partial<Extra>[]>>;
 }) => {
   return (
     <Accordion
@@ -207,10 +209,9 @@ const AddExtra = ({
           {t.admin["menu-items"].addExtraItem}
         </AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">
-          <ItemOptions t={t} type="extra" state={extras} setState={setExtras} />
+          <ItemOptions t={t} state={extras} setState={setExtras} type="extra" />
         </AccordionContent>
       </AccordionItem>
     </Accordion>
   );
 };
-console.log(AddExtra);

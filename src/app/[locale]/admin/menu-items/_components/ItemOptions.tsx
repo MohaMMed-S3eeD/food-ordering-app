@@ -59,16 +59,17 @@ const ItemOptions = ({
   t,
   state,
   setState,
+  type,
 }: {
   t: Translations;
   state: Partial<Size>[] | Partial<Extra>[];
   setState:
     | React.Dispatch<React.SetStateAction<Partial<Size>[]>>
     | React.Dispatch<React.SetStateAction<Partial<Extra>[]>>;
+  type: "size" | "extra";
 }) => {
-  console.log(extraNames);
   const { addOption, onChange, removeOption } = handleOptions(setState);
-  console.log(state);
+
   return (
     <>
       {state.length > 0 && (
@@ -78,7 +79,13 @@ const ItemOptions = ({
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2 flex-1">
                   <Label className="text-sm font-medium">Name:</Label>
-                  <SelectName item={size} onChange={onChange} index={index} />
+                  <SelectName
+                    state={state}
+                    item={size}
+                    onChange={onChange}
+                    index={index}
+                    type={type}
+                  />
                 </div>
                 <div className="flex items-center gap-2 flex-1">
                   <Label className="text-sm font-medium">Price:</Label>
@@ -105,12 +112,18 @@ const ItemOptions = ({
         </div>
       )}
       <Button
+        disabled={
+          state.length >=
+          (type === "size" ? sizeNames.length : extraNames.length)
+        }
         type="button"
         className="w-full"
         variant="outline"
         onClick={addOption}
       >
-        {t.admin["menu-items"].addItemSize}
+        {type === "size"
+          ? t.admin["menu-items"].addItemSize
+          : t.admin["menu-items"].addExtraItem}
       </Button>
     </>
   );
@@ -122,10 +135,14 @@ const SelectName = ({
   onChange,
   index,
   item,
+  state,
+  type,
 }: {
   onChange: (e: any, index: any, fieldName: any) => void;
   index: number;
   item: Partial<Size> | Partial<Extra>;
+  state: Partial<Size>[] | Partial<Extra>[];
+  type: "size" | "extra";
 }) => {
   return (
     <Select
@@ -137,34 +154,24 @@ const SelectName = ({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Sizes</SelectLabel>
-          {sizeNames.map((size, index) => (
-            <SelectItem key={index} value={size}>
-              {size}
-            </SelectItem>
-          ))}
+          <SelectLabel>{type === "size" ? "Sizes" : "Extras"}</SelectLabel>
+          {type === "size"
+            ? sizeNames
+                .filter((size) => !state.some((s) => s.name === size))
+                .map((size, index) => (
+                  <SelectItem key={index} value={size}>
+                    {size}
+                  </SelectItem>
+                ))
+            : extraNames
+                .filter((extra) => !state.some((s) => s.name === extra))
+                .map((extra, index) => (
+                  <SelectItem key={index} value={extra}>
+                    {extra}
+                  </SelectItem>
+                ))}
         </SelectGroup>
       </SelectContent>
     </Select>
   );
 };
-
-// const SelectExtra = () => {
-//   return (
-//     <Select>
-//       <SelectTrigger className="w-[180px]">
-//         <SelectValue placeholder="Select an extra" />
-//       </SelectTrigger>
-//       <SelectContent>
-//         <SelectGroup>
-//           <SelectLabel>Extras</SelectLabel>
-//           {extraNames.map((extra) => (
-//             <SelectItem key={extra} value={extra}>
-//               {extra}
-//             </SelectItem>
-//           ))}
-//         </SelectGroup>
-//       </SelectContent>
-//     </Select>
-//   );
-// };
