@@ -94,6 +94,7 @@ const ItemOptions = ({
                     min={0}
                     className="focus-visible:ring-0 max-w-32"
                     onChange={(e) => onChange(e, index, "price")}
+                    value={size.price}
                   />
                 </div>
                 <Button

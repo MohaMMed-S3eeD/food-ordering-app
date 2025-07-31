@@ -1,23 +1,34 @@
 import { Pages, Routes } from "@/constants/enums";
 import { getProductsWithCategory } from "@/server/db/products";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/formatters";
 import Image from "next/image";
+import BtnDelete from "./_components/BtnDelete";
 
 const page = async () => {
   const locale = await getLocale();
-  // const t = await getTranslations("admin");
+  const t = await getTranslations("mo.menuItems");
   const products = await getProductsWithCategory();
+
+  // تحويل الترجمات إلى object عادي لتمريرها للـ Client Component
+  const translations = {
+    edit: t("edit"),
+    delete: t("delete"),
+    deleteConfirmationTitle: t("deleteConfirmationTitle"),
+    deleteConfirmation: t("deleteConfirmation"),
+    productDeleted: t("productDeleted"),
+    cancel: t("cancel"),
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="flex items-center justify-between">
         <div className="mb-8">
           <h1 className="text-3xl font-extrabold text-primary mb-2">
-            Menu Items
+            {t("menuItems")}
           </h1>
         </div>
 
@@ -26,7 +37,7 @@ const page = async () => {
             href={`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${Pages.NEW}`}
           >
             <Button className="bg-primary hover:bg-primary/90 text-white shadow-lg">
-              Create New Menu Item
+              {t("createNewMenuItem")}
             </Button>
           </Link>
         </div>
@@ -39,22 +50,22 @@ const page = async () => {
               <thead className="bg-muted/50 border-b border-border">
                 <tr>
                   <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
-                    Image
+                    {t("image")}
                   </th>
                   <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
-                    Product Name
+                    {t("productName")}
                   </th>
                   <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
-                    Category
+                    {t("category")}
                   </th>
                   <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
-                    Description
+                    {t("description")}
                   </th>
                   <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
-                    Price
+                    {t("price")}
                   </th>
                   <th className="text-center px-6 py-4 text-sm font-semibold text-foreground">
-                    Actions
+                    {t("actions")}
                   </th>
                 </tr>
               </thead>
@@ -64,46 +75,51 @@ const page = async () => {
                     key={product.id}
                     className="hover:bg-muted/25 transition-colors"
                   >
-                    <td className="px-6 py-4">
-                      <div className="relative w-16 h-16 rounded-lg overflow-hidden">
-                        <Image
-                          src={product.imageUrl}
-                          alt={product.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="font-medium text-foreground">
-                        {product.name}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                        {product.Category.name}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm text-muted-foreground max-w-xs line-clamp-2">
-                        {product.description}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="font-bold text-primary">
-                        {formatCurrency(product.basePrice)}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center justify-center space-x-2">
-                        <Button variant="outline" size="sm">
-                          Edit
-                        </Button>
-                        <Button variant="destructive" size="sm">
-                          Delete
-                        </Button>
-                      </div>
-                    </td>
+                      <td className="px-6 py-4">
+                        <div className="relative w-16 h-16 rounded-lg overflow-hidden">
+                          <Link
+                            href={`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${product.id}`}
+                          >
+                            <Image
+                              src={product.imageUrl}
+                              alt={product.name}
+                              fill
+                              className="object-cover"
+                            />
+                          </Link>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="font-medium text-foreground">
+                          {product.name}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                          {product.Category.name}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-muted-foreground max-w-xs line-clamp-2">
+                          {product.description}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="font-bold text-primary">
+                          {formatCurrency(product.basePrice)}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center justify-center space-x-2">
+                          <Link
+                            href={`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${product.id}/edit`}
+                            className="inline-flex items-center px-3 py-1.5 text-xs font-medium text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors duration-200 border border-blue-200"
+                          >
+                            {translations.edit}
+                          </Link>
+                          <BtnDelete productId={product.id} translations={translations} />
+                        </div>
+                      </td>
                   </tr>
                 ))}
               </tbody>
@@ -130,10 +146,10 @@ const page = async () => {
                 </div>
               </div>
               <h3 className="text-lg font-semibold text-foreground mb-2">
-                No menu items found
+                {t("noMenuItemsFound")}
               </h3>
               <p className="text-muted-foreground">
-                Start by creating your first menu item using the button above
+                {t("startByCreatingYourFirstMenuItem")}
               </p>
             </div>
           </div>

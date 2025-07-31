@@ -62,3 +62,22 @@ export const getProductsWithCategory = cache(() => {
   });
   return products;
 }, ['products-with-category'], { revalidate: 60 });
+
+export const getProductById = cache(async (productId: string) => {
+  const product = await db.product.findUnique({
+    where: { id: productId },
+    include: {
+      sizes: true,
+      extras: true,
+    },
+  });
+  return product;
+},
+  ["product-by-id"],
+  { revalidate: 60 }
+);
+export const deleteProductById = cache(async (productId: string) => {
+  await db.product.delete({
+    where: { id: productId },
+  });
+}, ["product-delete-by-id"], { revalidate: 60 });

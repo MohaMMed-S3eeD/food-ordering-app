@@ -2,13 +2,13 @@
 "use client";
 import FormFields from "@/components/form-fields/form-fields";
 import { Button } from "@/components/ui/button";
-import { Pages } from "@/constants/enums";
+import { Pages, Routes } from "@/constants/enums";
 import useFormFields from "@/hooks/useFormFields";
 import { Translations } from "@/types/translations";
 import Image from "next/image";
 import { useActionState, useEffect, useState } from "react";
 import { SelectCategory } from "./SelectCategory";
-import { Category, Extra, Size } from "@prisma/client";
+import { Category, Extra, Product, Size } from "@prisma/client";
 import {
   Accordion,
   AccordionContent,
@@ -17,21 +17,34 @@ import {
 } from "@/components/ui/accordion";
 import ItemOptions from "./ItemOptions";
 import { ValidationErrors } from "@/validations/auth";
-import { addProduct } from "../_action/Product";
+import { addProduct, updateProduct } from "../_action/Product";
 import Loading from "@/app/[locale]/_components/Loading";
 import { toast } from "sonner";
+import { ProductWithRelations } from "@/types/product";
+import { useLocale } from "next-intl";
+import { useRouter } from "next/navigation";
+
+// todo:https://youtu.be/hDrt1ifv94o?t=35036
+
 const Form = ({
   t,
   categories,
+  product,
 }: {
   t: Translations;
   categories: Category[];
+  product?: ProductWithRelations;
 }) => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(
+    product?.imageUrl || null
+  );
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [idCategory, setIdCategory] = useState(categories[0].id);
-  const [sizes, setSizes] = useState<Partial<Size>[]>([]);
-  const [extras, setExtras] = useState<Partial<Extra>[]>([]);
+  const [idCategory, setIdCategory] = useState(
+    product?.categoryId || categories[0].id
+  );
+
+  const [sizes, setSizes] = useState<Partial<Size>[]>(product?.sizes || []);
+  const [extras, setExtras] = useState<Partial<Extra>[]>(product?.extras || []);
   const { getFields } = useFormFields({
     slug: `${Pages.MENU_ITEMS}/new`,
     translations: t,
@@ -40,6 +53,12 @@ const Form = ({
     console.log(idCategory);
   }, [idCategory]);
   const formData = new FormData();
+  Object.entries(product ?? {}).forEach(([key, value]) => {
+    if (value !== null && value !== undefined && key !== "image") {
+      formData.append(key, value.toString());
+    }
+  });
+
   const initialState: {
     success: boolean;
     status: number;
@@ -52,7 +71,30 @@ const Form = ({
     formData: new FormData(),
   };
   const [state, action, isPending] = useActionState(
-    addProduct.bind(null, { categoryId: idCategory }),
+    product
+      ? updateProduct.bind(null, {
+          productId: product.id,
+          categoryId: idCategory,
+          extras: extras.map(extra => ({ 
+            name: extra.name as string, 
+            price: Number(extra.price) 
+          })),
+          sizes: sizes.map(size => ({ 
+            name: size.name as string, 
+            price: Number(size.price) 
+          })),
+        })
+      : addProduct.bind(null, {
+          categoryId: idCategory,
+          extras: extras.map(extra => ({ 
+            name: extra.name as string, 
+            price: Number(extra.price) 
+          })),
+          sizes: sizes.map(size => ({ 
+            name: size.name as string, 
+            price: Number(size.price) 
+          })),
+        }),
     initialState
   );
 
@@ -128,9 +170,19 @@ const Form = ({
       </div>
 
       {selectedFile && <input type="hidden" name="hasNewImage" value="true" />}
-      {getFields().map((field) => (
-        <FormFields key={field.name} {...field} error={{}} />
-      ))}
+      {getFields().map((field) => {
+        const fieldValue =
+          state?.formData?.get(field.name) ?? formData.get(field.name);
+
+        return (
+          <FormFields
+            key={field.name}
+            {...field}
+            error={{}}
+            defaultValue={fieldValue as string}
+          />
+        );
+      })}
 
       <SelectCategory
         translations={t}
@@ -140,7 +192,7 @@ const Form = ({
       />
       <AddSize t={t} sizes={sizes} setSizes={setSizes} />
       <AddExtra t={t} extras={extras} setExtras={setExtras} />
-      <FormAction t={t} isPending={isPending} />
+      <FormAction t={t} isPending={isPending} product={product} />
     </form>
   );
 };
@@ -202,16 +254,26 @@ const UploadImage = ({
 const FormAction = ({
   t,
   isPending,
+  product,
 }: {
   t: Translations;
   isPending: boolean;
+  product?: ProductWithRelations;
 }) => {
+  const router = useRouter();
+  const locale = useLocale();
   return (
     <div className="flex flex-col gap-2">
       <Button type="submit" disabled={isPending}>
-        {isPending ? <Loading /> : t.create}
+        {isPending ? <Loading /> : product ? t.save : t.create}
       </Button>
-      <Button type="button" variant="outline">
+      <Button
+        type="button"
+        variant="outline"
+        onClick={() => {
+          router.push(`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}`);
+        }}
+      >
         {t.cancel}
       </Button>
     </div>

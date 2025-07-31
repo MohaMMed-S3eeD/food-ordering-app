@@ -18,7 +18,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatCurrency } from "@/lib/formatters";
 import { Checkbox } from "../ui/checkbox";
 import { ProductWithRelations } from "@/types/product";
-import { Extra, Size, SizeType } from "@prisma/client";
+import { Extra, Size } from "@prisma/client";
 import { useAppDispatch, useAppSelector } from "@/Redux/hooks";
 import {
   addToCart,
@@ -37,15 +37,15 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
   const dispatch = useAppDispatch();
   const defultSize =
     Cart.find((item) => item.id === Product.id)?.size ||
-    Product.sizes.find((size) => size.name === SizeType.SMALL);
+    Product.sizes[0]; // استخدم أول حجم بدلاً من البحث عن SMALL
 
   const defultExtra = Cart.find((item) => item.id === Product.id)?.extra || [];
-  const [selectedSize, setSelectedSize] = useState<Size>(defultSize as Size);
+  const [selectedSize, setSelectedSize] = useState<Size | null>(defultSize as Size || null);
   const [selectedExtra, setSelectedExtra] = useState<Extra[]>(
     defultExtra as unknown as Extra[]
   );
 
-  let totalPrice = Product.basePrice + selectedSize?.price || 0;
+  let totalPrice = Product.basePrice + (selectedSize?.price || 0);
   selectedExtra.forEach((extra) => {
     totalPrice += extra.price;
   });
@@ -198,7 +198,7 @@ function RadioGroupDemo({
 }: {
   sizes: Size[];
   price: number;
-  selectedSize: Size;
+  selectedSize: Size | null;
   setSelectedSize: (size: Size) => void;
 }) {
   return (
@@ -207,7 +207,7 @@ function RadioGroupDemo({
         <div key={size.id} className="flex items-center gap-3 border-b pb-2">
           <RadioGroupItem
             value={selectedSize?.name || ""}
-            checked={selectedSize.id === size.id}
+            checked={selectedSize?.id === size.id}
             id={size.id}
             onClick={() => setSelectedSize(size)}
           />

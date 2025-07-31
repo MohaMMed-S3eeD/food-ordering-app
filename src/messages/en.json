@@ -244,6 +244,26 @@
     "title": "Shopping Cart",
     "noItemsInCart": "There are no items in your cart. Add some"
   },
+  "mo": {
+    "menuItems": {
+      "menuItems": "Menu Items",
+      "createNewMenuItem": "Create New Menu Item",
+      "image": "Image",
+      "productName": "Product Name",
+      "category": "Category",
+      "description": "Description",
+      "price": "Price",
+      "actions": "Actions",
+      "noMenuItemsFound": "No menu items found",
+      "startByCreatingYourFirstMenuItem": "Start by creating your first menu item using the button above",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteConfirmationTitle": "Confirm Deletion",
+      "deleteConfirmation": "Are you sure you want to delete this product? This action cannot be undone.",
+      "productDeleted": "Product deleted successfully",
+      "cancel": "Cancel"
+    }
+  },
   "copyRight": "© 2024 All rights reserved",
   "noProductsFound": "No products found",
   "noCategoriesFound": "No categories found",

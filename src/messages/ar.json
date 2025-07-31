@@ -189,6 +189,12 @@
       }
     },
     "menu-items": {
+      "image": "الصورة",
+      "productName": "اسم المنتج",
+      "category": "الفئة",
+      "description": "الوصف",
+      "price": "السعر",
+      "actions": "الإجراءات",
       "createNewMenuItem": "إنشاء عنصر قائمة جديد",
       "addItemSize": "إضافة حجم العنصر",
       "addExtraItem": "إضافة عنصر إضافي",
@@ -244,7 +250,26 @@
     "title": "عربة التسوق",
     "noItemsInCart": "لا توجد عناصر في سلة التسوق الخاصة بك. أضف بعضًا"
   },
-
+  "mo": {
+    "menuItems": {
+      "menuItems": "عناصر قائمة المنتجات",
+      "createNewMenuItem": "إنشاء عنصر قائمة جديد",
+      "image": "الصورة",
+      "productName": "اسم المنتج",
+      "category": "الفئة",
+      "description": "الوصف",
+      "price": "السعر",
+      "actions": "الإجراءات",
+      "noMenuItemsFound": "لم يتم العثور على عناصر قائمة المنتجات",
+      "startByCreatingYourFirstMenuItem": "ابدأ بإنشاء عنصر قائمة جديد باستخدام الزر أعلاه",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "deleteConfirmationTitle": "تأكيد الحذف",
+      "deleteConfirmation": "هل أنت متأكد من أنك تريد حذف هذا المنتج؟ لا يمكن التراجع عن هذا الإجراء.",
+      "productDeleted": "تم حذف المنتج بنجاح",
+      "cancel": "إلغاء"
+    }
+  },
   "copyRight": "© 2024 جميع الحقوق محفوظة",
   "noProductsFound": "لم يتم العثور على منتجات",
   "noCategoriesFound": "لم يتم العثور على الفئات",
