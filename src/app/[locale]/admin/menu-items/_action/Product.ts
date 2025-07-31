@@ -118,12 +118,12 @@ export const updateProduct = async (args: {
     const basePrice = Number(data.basePrice);
     const imageFile = data.image as File;
     const hasNewImage = formData.get('hasNewImage') === 'true';
-    
+
     let imageUrl;
     if (hasNewImage && Boolean(imageFile.size)) {
         imageUrl = await getImageUrl(imageFile);
     }
-    
+
     const { image, ...productData } = data;
     console.log(image)
     try {

@@ -75,24 +75,24 @@ const Form = ({
       ? updateProduct.bind(null, {
           productId: product.id,
           categoryId: idCategory,
-          extras: extras.map(extra => ({ 
-            name: extra.name as string, 
-            price: Number(extra.price) 
+          extras: extras.map((extra) => ({
+            name: extra.name as string,
+            price: Number(extra.price),
           })),
-          sizes: sizes.map(size => ({ 
-            name: size.name as string, 
-            price: Number(size.price) 
+          sizes: sizes.map((size) => ({
+            name: size.name as string,
+            price: Number(size.price),
           })),
         })
       : addProduct.bind(null, {
           categoryId: idCategory,
-          extras: extras.map(extra => ({ 
-            name: extra.name as string, 
-            price: Number(extra.price) 
+          extras: extras.map((extra) => ({
+            name: extra.name as string,
+            price: Number(extra.price),
           })),
-          sizes: sizes.map(size => ({ 
-            name: size.name as string, 
-            price: Number(size.price) 
+          sizes: sizes.map((size) => ({
+            name: size.name as string,
+            price: Number(size.price),
           })),
         }),
     initialState
@@ -109,20 +109,25 @@ const Form = ({
       });
     }
     if (state?.success) {
-      toast.success(t.messages.productAdded, {
-        style: {
-          background: "#10b981",
-          color: "white",
-          border: "1px solid #059669",
-        },
-      });
+      toast.success(
+        product ? t.messages.updateProductSucess : t.messages.productAdded,
+        {
+          style: {
+            background: "#10b981",
+            color: "white",
+            border: "1px solid #059669",
+          },
+        }
+      );
     }
   }, [
     isPending,
     state?.status,
     state?.error,
     state?.success,
+    product,
     t.messages.productAdded,
+    t.messages.updateProductSucess,
   ]);
   return (
     <form className="space-y-4" action={action}>
