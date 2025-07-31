@@ -6,7 +6,7 @@ import { Pages } from "@/constants/enums";
 import useFormFields from "@/hooks/useFormFields";
 import { Translations } from "@/types/translations";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { SelectCategory } from "./SelectCategory";
 import { Category, Extra, Size } from "@prisma/client";
 import {
@@ -16,6 +16,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import ItemOptions from "./ItemOptions";
+import { ValidationErrors } from "@/validations/auth";
+import { addProduct } from "../_action/Product";
+import Loading from "@/app/[locale]/_components/Loading";
+import { toast } from "sonner";
 const Form = ({
   t,
   categories,
@@ -35,9 +39,51 @@ const Form = ({
   useEffect(() => {
     console.log(idCategory);
   }, [idCategory]);
+  const formData = new FormData();
+  const initialState: {
+    success: boolean;
+    status: number;
+    error: { [key: string]: string[] } | string;
+    formData: FormData;
+  } = {
+    success: false,
+    status: 200,
+    error: {},
+    formData: new FormData(),
+  };
+  const [state, action, isPending] = useActionState(
+    addProduct.bind(null, { categoryId: idCategory }),
+    initialState
+  );
 
+  useEffect(() => {
+    if (state?.error && typeof state.error === "object") {
+      Object.entries(state.error).forEach(([field, messages]) => {
+        if (Array.isArray(messages)) {
+          messages.forEach((message) => {
+            toast.error(`${message}`);
+          });
+        }
+      });
+    }
+    if (state?.success) {
+      toast.success(t.messages.productAdded, {
+        style: {
+          background: "#10b981",
+          color: "white",
+          border: "1px solid #059669",
+        },
+      });
+    }
+  }, [
+    isPending,
+    state?.status,
+    state?.error,
+    state?.success,
+    t.messages.productAdded,
+  ]);
   return (
-    <form className="space-y-4">
+    <form className="space-y-4" action={action}>
       <div className="bg-gradient-to-br from-primary to-primary/80 px-6 py-10 text-center rounded-t-xl relative overflow-hidden">
         <div className="absolute inset-0 bg-black/5"></div>
         <div className="relative z-10">
@@ -94,7 +140,7 @@ const Form = ({
       />
       <AddSize t={t} sizes={sizes} setSizes={setSizes} />
       <AddExtra t={t} extras={extras} setExtras={setExtras} />
-      <FormAction t={t} />
+      <FormAction t={t} isPending={isPending} />
     </form>
   );
 };
@@ -153,10 +199,18 @@ const UploadImage = ({
   );
 };
 
-const FormAction = ({ t }: { t: Translations }) => {
+const FormAction = ({
+  t,
+  isPending,
+}: {
+  t: Translations;
+  isPending: boolean;
+}) => {
   return (
     <div className="flex flex-col gap-2">
-      <Button type="submit">{t.create}</Button>
+      <Button type="submit" disabled={isPending}>
+        {isPending ? <Loading /> : t.create}
+      </Button>
       <Button type="button" variant="outline">
         {t.cancel}
       </Button>

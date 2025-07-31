@@ -15,7 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-// todo: https://youtu.be/hDrt1ifv94o?t=29909
 const sizeNames = [SizeType.SMALL, SizeType.MEDIUM, SizeType.LARGE];
 const extraNames = [
   ExtraType.CHEESE,

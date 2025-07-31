@@ -102,7 +102,7 @@ model Product {
   description String
   imageUrl    String
   basePrice   Int
-  order       Int
+  order       Int            @default(autoincrement())
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
   sizes       Size[]
