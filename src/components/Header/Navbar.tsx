@@ -8,8 +8,7 @@ import BtnChangeLang from "@/app/[locale]/_components/BtnChangeLang";
 import { useTranslations } from "next-intl";
 import { Session } from "next-auth";
 import AuthBtn from "./AuthBtn";
-
-
+import PageUser from "./PageUser";
 
 const Navbar = ({ initialSession }: { initialSession: Session | null }) => {
   const t = useTranslations("navbar");
@@ -50,9 +49,9 @@ const Navbar = ({ initialSession }: { initialSession: Session | null }) => {
       <nav
         className={`${
           isOpen
-            ? "animate-in slide-in-from-top-full duration-300"
+            ? "animate-in slide-in-from-top-full duration-300 bg-red-50"
             : "animate-out slide-out-to-top-full duration-300 hidden sm:flex sm:animate-in sm:non-in-from-top-full"
-        } flex-1 fixed top-10 left-0 right-0 z-50 sm:static flex justify-center sm:justify-end items-center  backdrop-blur-sm border-b sm:border-none shadow-lg sm:shadow-none w-full mt-3 sm:mt-0 px-4 sm:px-0 py-4 sm:py-0`}
+        }  flex-1 fixed top-14 left-0 right-0 z-50 sm:static flex justify-center sm:justify-end items-center  backdrop-blur-sm border-b sm:border-none shadow-lg sm:shadow-none w-full mt-3 sm:mt-0 px-4 sm:px-0 py-4 sm:py-0`}
       >
         <ul className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-md sm:w-auto">
           {links.map((link) => (
@@ -67,11 +66,14 @@ const Navbar = ({ initialSession }: { initialSession: Session | null }) => {
               </Link>
             </li>
           ))}
-          <li className="w-full block sm:w-auto sm:mb-0 sm:hidden">
-            <AuthBtn initialSession={initialSession} />
-          </li>
           <li className="block sm:hidden text-center">
             <BtnChangeLang />
+          </li>
+          <li className="w-full block sm:w-auto sm:mb-0 sm:hidden">
+            <PageUser initialSession={initialSession} />
+          </li>
+          <li className="w-full block sm:w-auto sm:mb-0 sm:hidden">
+            <AuthBtn initialSession={initialSession} />
           </li>
         </ul>
       </nav>

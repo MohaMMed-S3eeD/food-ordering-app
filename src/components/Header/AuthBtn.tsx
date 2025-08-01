@@ -24,15 +24,11 @@ const AuthBtn = ({ initialSession }: { initialSession: Session | null }) => {
         });
       }}
       href={`/`}
-      className=" sm:flex group cursor-pointer"
+      className=" sm:flex group cursor-pointer w-full sm:w-auto"
     >
       <div className="flex items-center gap-1 px-4 py-2 rounded-lg bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 transition-all duration-300 border border-primary/20 hover:border-primary/40">
         <p className="flex items-center gap-1 w-full  text-sm  font-semibold text-primary group-hover:text-primary/80 transition-colors">
-          <span className="inline w-full text-center">
-            {session.data?.user.name && session.data.user.name.length > 17
-              ? `${session.data.user.name.substring(0, 12)}...`
-              : session.data?.user.name}
-          </span>
+          <span className="inline w-full text-center">{t2("signOut")}</span>
         </p>
         <span className="hidden text-xs text-gray-500 group-hover:text-primary transition-colors font-medium">
           {t2("signOut")}

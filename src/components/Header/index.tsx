@@ -8,22 +8,28 @@ import BtnChangeLang from "@/app/[locale]/_components/BtnChangeLang";
 import AuthBtn from "./AuthBtn";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/server/auth";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getLocale } from "next-intl/server";
 import PageUser from "./PageUser";
+import Image from "next/image";
 
 const Header = async () => {
-  const t = await getTranslations("logo");
   const session = await getServerSession(AuthOptions);
   const locale = await getLocale();
   return (
-    <header className="py-4 ">
+    <header className="py-4 sticky top-0 z-50 bg-white">
       <div className="container flex justify-between items-center ">
         <div className="flex flex-row-reverse  sm:flex-row items-center gap-4">
           <Link
             href={Routes.ROOT}
             className="text-primary font-semibold text-xl z-500 "
           >
-            🍕 {t("logo")}
+            <Image
+              className="pb-2"
+              src="https://res.cloudinary.com/dtvr83fb3/image/upload/v1754070475/output-onlinepngtools_nsne4e.png"
+              alt="logo"
+              width={80}
+              height={80}
+            />
           </Link>
           <Navbar initialSession={session} />
           <div className="hidden sm:block">
@@ -31,7 +37,7 @@ const Header = async () => {
           </div>
         </div>
         <div
-          className={`flex flex-row items-center ${
+          className={` flex flex-row items-center ${
             locale === "en" ? "gap-2" : "sm:gap-2"
           }`}
         >

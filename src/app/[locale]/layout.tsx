@@ -8,6 +8,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import NextAuthSessionProvider from "./providers/NextAuthSessionProvider";
+import Footer from "./_components/Footer";
 
 const rubik = Rubik({
   subsets: ["latin"],
@@ -63,6 +64,7 @@ export default async function LocaleLayout({
                   },
                 }}
               />
+              <Footer />
             </ReduxProvider>
           </NextIntlClientProvider>
         </NextAuthSessionProvider>

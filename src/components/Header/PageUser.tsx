@@ -13,7 +13,7 @@ const PageUser = ({ initialSession }: { initialSession: Session | null }) => {
   const t = useTranslations("navbar");
   return (
     session.data?.user.role && (
-      <ButtonCrach className="bubbles-login btn-login">
+      <ButtonCrach className="bubbles-login btn-login w-full sm:w-auto">
         <Link href={Routes.PROFILE}>
           <span className="text">{isAdmin ? t("admin") : t("profile")}</span>
         </Link>
@@ -22,4 +22,4 @@ const PageUser = ({ initialSession }: { initialSession: Session | null }) => {
   );
 };
 
-export default PageUser;    
+export default PageUser;

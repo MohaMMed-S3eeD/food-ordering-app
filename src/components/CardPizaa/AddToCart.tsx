@@ -189,7 +189,6 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
     </Dialog>
   );
 }
-
 function RadioGroupDemo({
   sizes,
   price,
@@ -202,23 +201,36 @@ function RadioGroupDemo({
   setSelectedSize: (size: Size) => void;
 }) {
   return (
-    <RadioGroup defaultValue="comfortable">
+    <RadioGroup defaultValue="comfortable" className="space-y-2">
       {sizes.map((size) => (
-        <div key={size.id} className="flex items-center gap-3 border-b pb-2">
-          <RadioGroupItem
-            value={selectedSize?.name || ""}
-            checked={selectedSize?.id === size.id}
-            id={size.id}
-            onClick={() => setSelectedSize(size)}
-          />
-          <Label htmlFor={size.id}>
-            {size.name} - {formatCurrency(Number(price) + size.price)}
-          </Label>
+        <div 
+          key={size.id} 
+          className="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-primary/30 hover:bg-gray-50/50 transition-all duration-200 cursor-pointer group"
+          onClick={() => setSelectedSize(size)}
+        >
+          <div className="flex items-center gap-3">
+            <RadioGroupItem
+              value={size.name}
+              checked={selectedSize?.id === size.id}
+              id={size.id}
+              className="border-2 group-hover:border-primary"
+            />
+            <Label 
+              htmlFor={size.id}
+              className="font-medium text-sm cursor-pointer group-hover:text-primary transition-colors"
+            >
+              {size.name}
+            </Label>
+          </div>
+          <span className="text-sm font-semibold text-primary">
+            {formatCurrency(Number(price) + size.price)}
+          </span>
         </div>
       ))}
     </RadioGroup>
   );
 }
+
 function ExtraGroup({
   Exters,
   selectedExtra,
@@ -238,17 +250,30 @@ function ExtraGroup({
   };
 
   return (
-    <div className="text-xs">
+    <div className="space-y-2">
       {Exters.map((exter) => (
-        <div key={exter.id} className="flex items-center gap-3 border-b pb-2 ">
-          <Checkbox
-            id={exter.id}
-            checked={selectedExtra.some((item) => item.id === exter.id)}
-            onCheckedChange={() => handleExtraToggle(exter)}
-          />
-          <Label htmlFor={exter.id}>
-            {exter.name} + {formatCurrency(exter.price)}
-          </Label>
+        <div 
+          key={exter.id} 
+          className="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-primary/30 hover:bg-gray-50/50 transition-all duration-200 cursor-pointer group"
+          onClick={() => handleExtraToggle(exter)}
+        >
+          <div className="flex items-center gap-3">
+            <Checkbox
+              id={exter.id}
+              checked={selectedExtra.some((item) => item.id === exter.id)}
+              onCheckedChange={() => handleExtraToggle(exter)}
+              className="border-2 group-hover:border-primary"
+            />
+            <Label 
+              htmlFor={exter.id}
+              className="font-medium text-sm cursor-pointer group-hover:text-primary transition-colors"
+            >
+              {exter.name}
+            </Label>
+          </div>
+          <span className="text-sm font-semibold text-green-600">
+            +{formatCurrency(exter.price)}
+          </span>
         </div>
       ))}
     </div>
