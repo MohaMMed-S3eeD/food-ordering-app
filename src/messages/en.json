@@ -335,5 +335,30 @@
     "lowToHigh": "Low to High",
     "showingProducts": "Showing {count} products",
     "noProducts": "No products found matching your criteria."
+  },
+  "about": {
+    "title": "About Us",
+    "subTitle":{
+      "title": "Our Story",
+      "subTitle": "Our Story"
+    },
+    "ourStory": {
+      "title": "Our Story",
+      "description": "Welcome to our pizzeria, where we serve the finest pizzas made with the freshest ingredients. Every slice is a masterpiece, crafted with care to deliver the perfect balance of flavors."
+    },
+    "quality": {
+      "title": "Quality",
+      "description": "We use the freshest ingredients and bake them to perfection, ensuring that every bite is delicious and satisfying."
+    },
+    "team": {
+      "title": "Our Team",
+      "description": "We are a team of passionate pizza lovers who are dedicated to providing the best pizza experience to our customers."
+    },
+    "stats": {
+      "happyCustomers": "Happy Customers",
+      "diverseDishes": "Diverse Dishes",
+      "yearsExperience": "Years Experience",
+      "customerService": "Customer Service"
+    }
   }
 }

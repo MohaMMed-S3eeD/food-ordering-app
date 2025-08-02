@@ -23,11 +23,7 @@ const Navbar = ({ initialSession }: { initialSession: Session | null }) => {
       title: t("about"),
       href: Routes.ABOUT,
     },
-    {
-      id: crypto.randomUUID(),
-      title: t("contact"),
-      href: Routes.CONTACT,
-    },
+   
   ];
   const [isOpen, setIsOpen] = useState(false);
   return (
