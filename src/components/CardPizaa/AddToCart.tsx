@@ -85,8 +85,8 @@ export function AddToCart({ Product }: { Product: ProductWithRelations }) {
   return (
     <Dialog>
       <form>
-        <DialogTrigger asChild>
-          <ButtonCrach className="login-btn bubbles-login w-full sm:w-auto">
+        <DialogTrigger asChild className="w-full">
+          <ButtonCrach className="login-btn bubbles-login w-full">
             Add to Cart
           </ButtonCrach>
         </DialogTrigger>

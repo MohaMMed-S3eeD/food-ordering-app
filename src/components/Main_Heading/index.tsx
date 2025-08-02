@@ -1,10 +1,14 @@
-function MainHeading({ title, subTitle }: { title: string; subTitle: string }) {
+import { useTranslations } from "next-intl";
+
+function MainHeading( ) {
+  const t = useTranslations("menu");
+
   return (
     <div className="text-center">
       <span className={`uppercase  font-semibold leading-4 text-zinc-400 `}>
-        {subTitle}
+        {t("title")}
       </span>
-      <h2 className={`text-primary font-bold text-4xl italic `}>{title}</h2>
+      <h2 className={`text-primary font-bold text-4xl italic `}>{t("subTitle")}</h2>
     </div>
   );
 }

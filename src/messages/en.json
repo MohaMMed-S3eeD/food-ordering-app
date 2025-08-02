@@ -268,5 +268,71 @@
   "noProductsFound": "No products found",
   "noCategoriesFound": "No categories found",
   "saving": "Saving...",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "features": {
+    "title": "Why Choose Us?",
+    "subTitle": "Our Features",
+    "fastDelivery": {
+      "title": "Fast Delivery",
+      "description": "Delivery within 30 minutes or less"
+    },
+    "qualityGuaranteed": {
+      "title": "Quality Guaranteed",
+      "description": "Fresh and high-quality ingredients"
+    },
+    "bestTaste": {
+      "title": "Best Taste",
+      "description": "Original recipes and unique flavors"
+    },
+    "freeDelivery": {
+      "title": "Free Delivery",
+      "description": "Free delivery for orders over 100 EGP"
+    }
+  },
+  "testimonials": {
+    "title": "Customer Reviews",
+    "subTitle": "What Our Customers Say?",
+    "reviews": [
+      {
+        "name": "Ahmed Mohamed",
+        "comment": "The best pizza I've ever tasted! Great taste and very fast delivery"
+      },
+      {
+        "name": "Ali Ahmed",
+        "comment": "High quality and fresh ingredients, I recommend everyone to try it"
+      },
+      {
+        "name": "Mohamed Ali",
+        "comment": "Excellent service and delicious taste, I will definitely order again"
+      }
+    ]
+  },
+  "contactSection": {
+    "title": "Contact Us",
+    "subTitle": "Don't Hesitate",
+    "phone": {
+      "label": "Phone",
+      "value": "+20 123 456 789"
+    },
+    "email": {
+      "label": "Email",
+      "value": "info@pizza.com"
+    },
+    "address": {
+      "label": "Address",
+      "value": "123 Pizza Street, Cairo, Egypt"
+    },
+    "mapLabel": "Location Map"
+  },
+  "menu": {
+    "title": "Menu",
+    "subTitle": "Our Menu",
+    "filters": "Filters",
+    "categories": "Categories",
+    "sortByPrice": "Sort by Price",
+    "highToLow": "High to Low",
+    "lowToHigh": "Low to High",
+    "showingProducts": "Showing {count} products",
+    "noProducts": "No products found matching your criteria."
+  }
 }

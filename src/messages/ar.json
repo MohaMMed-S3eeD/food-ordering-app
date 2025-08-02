@@ -274,5 +274,71 @@
   "noProductsFound": "لم يتم العثور على منتجات",
   "noCategoriesFound": "لم يتم العثور على الفئات",
   "saving": "جاري الحفظ...",
-  "loading": "جاري التحميل..."
+  "loading": "جاري التحميل...",
+  "features": {
+    "title": "لماذا تختارنا؟",
+    "subTitle": "مميزاتنا",
+    "fastDelivery": {
+      "title": "توصيل سريع",
+      "description": "توصيل خلال 30 دقيقة أو أقل"
+    },
+    "qualityGuaranteed": {
+      "title": "جودة مضمونة",
+      "description": "مكونات طازجة وعالية الجودة"
+    },
+    "bestTaste": {
+      "title": "أفضل طعم",
+      "description": "وصفات أصلية ونكهات مميزة"
+    },
+    "freeDelivery": {
+      "title": "توصيل مجاني",
+      "description": "توصيل مجاني لطلبات أكثر من 100 جنيه"
+    }
+  },
+  "testimonials": {
+    "title": "آراء عملائنا",
+    "subTitle": "ماذا يقول عملاؤنا؟",
+    "reviews": [
+      {
+        "name": "أحمد محمد",
+        "comment": "أفضل بيتزا تذوقتها في حياتي! الطعم رائع والتوصيل سريع جداً"
+      },
+      {
+        "name": "علي أحمد", 
+        "comment": "جودة عالية ومكونات طازجة، أنصح الجميع بتجربتها"
+      },
+      {
+        "name": "محمد علي",
+        "comment": "خدمة ممتازة وطعم لذيذ، سأطلب مرة أخرى بالتأكيد"
+      }
+    ]
+  },
+  "contactSection": {
+    "title": "اتصل بنا",
+    "subTitle": "لا تتردد",
+    "phone": {
+      "label": "الهاتف",
+      "value": "+20 123 456 789"
+    },
+    "email": {
+      "label": "البريد الإلكتروني",
+      "value": "info@pizza.com"
+    },
+    "address": {
+      "label": "العنوان",
+      "value": "123 شارع البيتزا، القاهرة، مصر"
+    },
+    "mapLabel": "خريطة الموقع"
+  },
+  "menu": {
+    "title": "القائمة",
+    "subTitle": "القائمة الغذائية",
+    "filters": "المرشحات",
+    "categories": "الفئات",
+    "sortByPrice": "ترتيب حسب السعر",
+    "highToLow": "من الأعلى للأقل",
+    "lowToHigh": "من الأقل للأعلى",
+    "showingProducts": "عرض {count} منتج",
+    "noProducts": "لم يتم العثور على منتجات تطابق معاييرك."
+  }
 }
