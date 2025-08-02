@@ -13,8 +13,7 @@ const Contact = () => {
       <div className="container">
         <div className="text-center mb-12">
           <MainHeading
-            title={t("title")}
-            subTitle={t("subTitle")}
+
           />
         </div>
         

@@ -40,7 +40,7 @@ const Testimonials = () => {
     <section className="section-gap">
       <div className="container">
         <div className="text-center mb-12">
-          <MainHeading title={t("title")} subTitle={t("subTitle")} />
+          <MainHeading />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

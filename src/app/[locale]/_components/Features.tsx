@@ -33,10 +33,7 @@ const Features = () => {
     <section className="section-gap bg-muted/30 py-10">
       <div className="container">
         <div className="text-center mb-12">
-          <MainHeading
-            title={t("title")}
-            subTitle={t("subTitle")}
-          />
+          <MainHeading />
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -1,20 +1,18 @@
 import CardPizaa from "@/components/CardPizaa";
 import MainHeading from "@/components/Main_Heading";
 import { getAllProducts } from "@/server/db/products";
-import { getTranslations } from "next-intl/server";
+// import { getTranslations } from "next-intl/server";
 import React from "react";
 
 export const revalidate = 0;
 const BestSeller = async () => {
   const bestSellers = await getAllProducts();
   const bestSeller = bestSellers.slice(0, 3);
-  const t = await getTranslations("home.bestSeller");
+  // const t = await getTranslations("home.bestSeller");
   return (
     <section className="section-gap">
       <div className="container text-center mb-2">
         <MainHeading
-          title={t("OurBestSellers")}
-          subTitle={t("OurBestSellers")}
         />
       </div>
       {bestSeller.length > 0 ? (
