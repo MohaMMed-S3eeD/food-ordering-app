@@ -62,7 +62,7 @@ const Form = ({
   const initialState: {
     success: boolean;
     status: number;
-    error: { [key: string]: string[] } | string;
+    error: { [key: string]: string[] } | { general: string };
     formData: FormData;
   } = {
     success: false,
@@ -105,6 +105,8 @@ const Form = ({
           messages.forEach((message) => {
             toast.error(`${message}`);
           });
+        } else if (field === "general") {
+          toast.error(`${messages}`);
         }
       });
     }

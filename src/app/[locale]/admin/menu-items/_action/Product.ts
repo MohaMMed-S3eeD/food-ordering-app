@@ -95,7 +95,7 @@ export const addProduct = async (args: {
         return {
             success: false,
             status: 500,
-            error: translations.messages.unexpectedError,
+            error: { general: translations.messages.unexpectedError },
             formData
         }
     }
@@ -202,7 +202,7 @@ export const updateProduct = async (args: {
         return {
             success: false,
             status: 500,
-            error: translations.messages.unexpectedError,
+            error: { general: translations.messages.unexpectedError },
             formData
         }
     }
