@@ -5,17 +5,14 @@ import Image from "next/image";
 
 const About = () => {
   const t = useTranslations("home.about");
-  
+
   return (
     <section className="section-gap bg-muted/30 py-10">
       <div className="container">
         <div className="text-center mb-12">
-          <MainHeading
-            title={t("aboutUs")}
-            subTitle={t("ourStory")}
-          />
+          <MainHeading />
         </div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* النص والوصف */}
           <div className="space-y-6">
@@ -31,7 +28,7 @@ const About = () => {
               </p>
             </div>
           </div>
-          
+
           {/* الصورة */}
           <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] rounded-lg overflow-hidden">
             <Image
