@@ -5,12 +5,24 @@ import { db } from "@/lib/prisma";
 import addCategorySchema from "@/validations/category";
 import { getLocale, getTranslations } from "next-intl/server";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { getServerSession } from "next-auth";
+import { AuthOptions } from "@/server/auth";
+import { isAdminView } from "@/lib/admin-permissions";
 
 
 const addCategory = async (prevState: unknown, formData: FormData) => {
     const locale = await getLocale();
     const t = await getTranslations("admin.categories.form.name.validation");
     const tmessage = await getTranslations("messages");
+    
+    // Check if user is AdminView (view-only admin)
+    const session = await getServerSession(AuthOptions);
+    if (isAdminView(session)) {
+        return {
+            status: 403,
+            error: { general: tmessage("adminViewRestriction") },
+        };
+    }
 
     const result = addCategorySchema(t("required")).safeParse(
         Object.fromEntries(formData.entries()));
@@ -52,6 +64,15 @@ const updateCategory = async (prevState: unknown, formData: FormData) => {
     const locale = await getLocale();
     const t = await getTranslations("admin.categories.form.name.validation");
     const tmessage = await getTranslations("messages");
+    
+    // Check if user is AdminView (view-only admin)
+    const session = await getServerSession(AuthOptions);
+    if (isAdminView(session)) {
+        return {
+            status: 403,
+            error: { general: tmessage("adminViewRestriction") },
+        };
+    }
 
     const result = addCategorySchema(t("required")).safeParse(
         Object.fromEntries(formData.entries()));
@@ -90,6 +111,15 @@ const updateCategory = async (prevState: unknown, formData: FormData) => {
 const deleteCategory = async (prevState: unknown, formData: FormData) => {
     const locale = await getLocale();
     const tmessage = await getTranslations("messages");
+    
+    // Check if user is AdminView (view-only admin)
+    const session = await getServerSession(AuthOptions);
+    if (isAdminView(session)) {
+        return {
+            status: 403,
+            error: { general: tmessage("adminViewRestriction") },
+        };
+    }
 
     const id = formData.get("id") as string;
 

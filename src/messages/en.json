@@ -109,7 +109,8 @@
     "updateProductSucess": "Product updated successfull",
     "deleteProductSucess": "Product deleted successfull",
     "updateUserSucess": "User updated successfull",
-    "deleteUserSucess": "User deleted successfull"
+    "deleteUserSucess": "User deleted successfull",
+    "adminViewRestriction": "You are a view-only admin and cannot make changes"
   },
   "menuItem": {
     "addToCart": "Add to cart"

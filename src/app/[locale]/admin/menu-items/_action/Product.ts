@@ -6,6 +6,9 @@ import { addProductSchema, updateProductSchema } from "@/validations/product"
 import { ExtraType, SizeType } from "@prisma/client"
 import { getLocale } from "next-intl/server"
 import { revalidatePath } from "next/cache"
+import { getServerSession } from "next-auth"
+import { AuthOptions } from "@/server/auth"
+import { isAdminView } from "@/lib/admin-permissions"
 
 export const addProduct = async (args: {
     categoryId: string,
@@ -22,6 +25,17 @@ export const addProduct = async (args: {
     const translations: Translations = await import(`@/messages/${locale}.json`).then(
         (module) => module.default
     );
+    
+    // Check if user is AdminView (view-only admin)
+    const session = await getServerSession(AuthOptions);
+    if (isAdminView(session)) {
+        return {
+            success: false,
+            status: 403,
+            error: { general: translations.messages.adminViewRestriction },
+            formData
+        };
+    }
 
     const result = addProductSchema(translations).safeParse(
         Object.fromEntries(formData.entries())
@@ -103,6 +117,17 @@ export const updateProduct = async (args: {
     const translations: Translations = await import(`@/messages/${locale}.json`).then(
         (module) => module.default
     );
+    
+    // Check if user is AdminView (view-only admin)
+    const session = await getServerSession(AuthOptions);
+    if (isAdminView(session)) {
+        return {
+            success: false,
+            status: 403,
+            error: { general: translations.messages.adminViewRestriction },
+            formData
+        };
+    }
     const result = updateProductSchema(translations).safeParse(
         Object.fromEntries(formData.entries())
     )
@@ -186,6 +211,20 @@ export const updateProduct = async (args: {
 
 export const deleteProduct = async (productId: string) => {
     const locale = await getLocale();
+    const translations: Translations = await import(`@/messages/${locale}.json`).then(
+        (module) => module.default
+    );
+    
+    // Check if user is AdminView (view-only admin)
+    const session = await getServerSession(AuthOptions);
+    if (isAdminView(session)) {
+        return {
+            success: false,
+            status: 403,
+            error: { general: translations.messages.adminViewRestriction }
+        };
+    }
+    
     try {
         await db.product.delete({
             where: { id: productId }

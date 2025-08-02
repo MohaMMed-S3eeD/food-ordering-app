@@ -98,6 +98,7 @@ type Field = {
       deleteProductSucess: string;
       updateUserSucess: string;
       deleteUserSucess: string;
+      adminViewRestriction: string;
     };
     cart: {
       title: string;

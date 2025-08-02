@@ -109,7 +109,8 @@
     "updateProductSucess": "تم تحديث المنتج بنجاح",
     "deleteProductSucess": "تم حذف المنتج بنجاح",
     "updateUserSucess": "تم تحديث المستخدم بنجاح",
-    "deleteUserSucess": "تم حذف المستخدم بنجاح"
+    "deleteUserSucess": "تم حذف المستخدم بنجاح",
+    "adminViewRestriction": "أنت مجرد أدمين مشاهد ولا يمكنك إجراء تغييرات"
   },
   "menuItem": {
     "addToCart": "أضف الي العربة"

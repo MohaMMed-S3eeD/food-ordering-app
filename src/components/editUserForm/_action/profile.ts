@@ -6,6 +6,9 @@ import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import cloudinary from "@/lib/cloudinary";
 import { UserRole } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import { AuthOptions } from "@/server/auth";
+import { isAdminView } from "@/lib/admin-permissions";
 
 export const updateProfile = async (isAdmin: boolean, prevState: unknown, formData: FormData) => {
     const locale = await getLocale();
@@ -13,6 +16,18 @@ export const updateProfile = async (isAdmin: boolean, prevState: unknown, formDa
     const translations: Translations = await import(`@/messages/${locale}.json`).then(
         (module) => module.default
     );
+    
+    // Check if user is AdminView (view-only admin)
+    const session = await getServerSession(AuthOptions);
+    if (isAdminView(session)) {
+        return {
+            error: {
+                message: [translations.messages.adminViewRestriction],
+            },
+            status: "error",
+            formData,
+        };
+    }
     const schema = updateProfileSchema(translations);
     const validatedFields = schema.safeParse({
         ...Object.fromEntries(formData.entries())
