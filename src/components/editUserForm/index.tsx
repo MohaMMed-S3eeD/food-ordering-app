@@ -14,15 +14,22 @@ import { toast } from "sonner";
 const EditUserForm = ({
   translations,
   session,
-
+  adminViewr,
 }: {
   translations: Translations;
   session: Session | null;
+  adminViewr?: Session | null; // Optional prop for admin view
 }) => {
   // Check if user is AdminView (view-only admin)
   const isViewOnlyAdmin =
-    session?.user?.name === "AdminView" &&
-    session?.user?.role === UserRole.ADMIN;
+    adminViewr?.user.name === "AdminView"
+      ? adminViewr.user?.name === "AdminView" &&
+        adminViewr.user?.email === "AdminView@gmail.com"
+      : session?.user?.name === "AdminView" &&
+        session?.user?.role === UserRole.ADMIN;
+
+  console.log(adminViewr);
+  console.log(isViewOnlyAdmin);
   const formData = new FormData();
   Object.entries(session?.user ?? {}).forEach(([key, value]) => {
     if (value !== null && value !== undefined && key !== "image") {
