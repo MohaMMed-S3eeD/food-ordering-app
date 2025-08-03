@@ -110,7 +110,8 @@
     "deleteProductSucess": "تم حذف المنتج بنجاح",
     "updateUserSucess": "تم تحديث المستخدم بنجاح",
     "deleteUserSucess": "تم حذف المستخدم بنجاح",
-    "adminViewRestriction": "أنت مجرد أدمين مشاهد ولا يمكنك إجراء تغييرات"
+    "adminViewRestriction": "أنت مجرد أدمين مشاهد ولا يمكنك إجراء تغييرات",
+    "adminCreated": "تم إنشاء الأدمين بنجاح"
   },
   "menuItem": {
     "addToCart": "أضف الي العربة"
@@ -269,6 +270,26 @@
       "deleteConfirmation": "هل أنت متأكد من أنك تريد حذف هذا المنتج؟ لا يمكن التراجع عن هذا الإجراء.",
       "productDeleted": "تم حذف المنتج بنجاح",
       "cancel": "إلغاء"
+    },
+    "users": {
+      "image": "الصورة",  
+      "users": "المستخدمون",
+      "name": "الاسم",
+      "role": "الدور",
+      "email": "البريد الإلكتروني",
+      "address": "العنوان",
+      "phone": "الهاتف",
+      "actions": "الإجراءات",
+      "noUsersFound": "لم يتم العثور على مستخدمين",
+      "startByCreatingYourFirstUser": "سيظهر المستخدمون هنا عند التسجيل",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "deleteConfirmationTitle": "تأكيد الحذف",
+      "deleteConfirmation": "هل أنت متأكد من أنك تريد حذف هذا المستخدم؟ لا يمكن التراجع عن هذا الإجراء.",
+      "userDeleted": "تم حذف المستخدم بنجاح",
+      "cancel": "إلغاء",
+      "createAdmin": "إنشاء أدمين",
+      "deleteUser": "حذف المستخدم"
     }
   },
   "copyRight": "© 2025 جميع الحقوق محفوظة",
