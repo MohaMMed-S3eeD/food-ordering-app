@@ -7,20 +7,13 @@ type FormDataFile = Blob & {
 };
 
 export async function POST(request: Request) {
-    console.log("Upload API called");
 
     try {
         const formData = await request.formData();
         const file = formData.get("file") as FormDataFile | null;
         const pathName = formData.get("pathName") as string;
 
-        console.log("File received:", {
-            hasFile: !!file,
-            fileName: file?.name,
-            fileSize: file?.size,
-            fileType: file?.type,
-            pathName
-        });
+
 
         if (!file) {
             console.error("No file provided");
@@ -51,13 +44,13 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
         }
 
-        console.log("Converting file to base64...");
+
 
         // Convert the file to a format Cloudinary can handle (Buffer or Base64)
         const fileBuffer = await file.arrayBuffer();
         const base64File = Buffer.from(fileBuffer).toString("base64");
 
-        console.log("Uploading to Cloudinary...");
+
 
         // Upload to Cloudinary
         const uploadResponse = await cloudinary.uploader.upload(
@@ -72,10 +65,6 @@ export async function POST(request: Request) {
             }
         );
 
-        console.log("Upload successful:", {
-            public_id: uploadResponse.public_id,
-            secure_url: uploadResponse.secure_url
-        });
 
         return NextResponse.json({
             url: uploadResponse.secure_url,
@@ -103,7 +92,6 @@ export async function POST(request: Request) {
 
 export async function GET() {
     try {
-        // تحقق من إعدادات Cloudinary
         const isConfigured = !!(
             process.env.CLOUDINARY_CLOUD_NAME &&
             process.env.CLOUDINARY_API_KEY &&
