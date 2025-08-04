@@ -14,7 +14,7 @@ const PageUser = ({ initialSession }: { initialSession: Session | null }) => {
   return (
     session.data?.user.role && (
       <ButtonCrach className="bubbles-login btn-login w-full sm:w-auto">
-        <Link href={Routes.PROFILE}>
+        <Link href={`/${isAdmin ? Routes.ADMIN : Routes.PROFILE}`}>
           <span className="text">{isAdmin ? t("admin") : t("profile")}</span>
         </Link>
       </ButtonCrach>

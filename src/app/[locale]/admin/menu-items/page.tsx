@@ -25,19 +25,20 @@ const page = async () => {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="flex items-center justify-between">
-        <div className="mb-8">
-          <h1 className="text-3xl font-extrabold text-primary mb-2">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 space-y-4 sm:space-y-0">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-primary">
             {t("menuItems")}
           </h1>
         </div>
 
-        <div className="mb-8">
+        <div>
           <Link
             href={`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${Pages.NEW}`}
           >
-            <Button className="bg-primary hover:bg-primary/90 text-white shadow-lg">
-              {t("createNewMenuItem")}
+            <Button className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white shadow-lg">
+              <span className="hidden sm:inline">{t("createNewMenuItem")}</span>
+              <span className="sm:hidden">{t("createNewMenuItem")}</span>
             </Button>
           </Link>
         </div>
@@ -45,86 +46,153 @@ const page = async () => {
 
       <div className="bg-white rounded-lg shadow-sm border border-border overflow-hidden">
         {products && products.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-muted/50 border-b border-border">
-                <tr>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
-                    {t("image")}
-                  </th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
-                    {t("productName")}
-                  </th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
-                    {t("category")}
-                  </th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
-                    {t("description")}
-                  </th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
-                    {t("price")}
-                  </th>
-                  <th className="text-center px-6 py-4 text-sm font-semibold text-foreground">
-                    {t("actions")}
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden lg:block overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-muted/50 border-b border-border">
+                  <tr>
+                    <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
+                      {t("image")}
+                    </th>
+                    <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
+                      {t("productName")}
+                    </th>
+                    <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
+                      {t("category")}
+                    </th>
+                    <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
+                      {t("description")}
+                    </th>
+                    <th className="text-left px-6 py-4 text-sm font-semibold text-foreground">
+                      {t("price")}
+                    </th>
+                    <th className="text-center px-6 py-4 text-sm font-semibold text-foreground">
+                      {t("actions")}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {products.map((product) => (
+                    <tr
+                      key={product.id}
+                      className="hover:bg-muted/25 transition-colors"
+                    >
+                        <td className="px-6 py-4">
+                          <div className="relative w-16 h-16 rounded-lg overflow-hidden">
+                            <Link
+                              href={`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${product.id}`}
+                            >
+                              <Image
+                                src={product.imageUrl}
+                                alt={product.name}
+                                fill
+                                className="object-cover"
+                              />
+                            </Link>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="font-medium text-foreground">
+                            {product.name}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                            {product.Category.name}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-muted-foreground max-w-xs line-clamp-2">
+                            {product.description}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="font-bold text-primary">
+                            {formatCurrency(product.basePrice)}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center justify-center space-x-2">
+                            <Link
+                              href={`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${product.id}/edit`}
+                              className="inline-flex items-center px-3 py-1.5 text-xs font-medium text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors duration-200 border border-blue-200"
+                            >
+                              {translations.edit}
+                            </Link>
+                            <BtnDelete productId={product.id} translations={translations} />
+                          </div>
+                        </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card View */}
+            <div className="lg:hidden">
+              <div className="space-y-4 p-4">
                 {products.map((product) => (
-                  <tr
+                  <div
                     key={product.id}
-                    className="hover:bg-muted/25 transition-colors"
+                    className="bg-background border border-border rounded-lg p-4 hover:shadow-md transition-shadow"
                   >
-                      <td className="px-6 py-4">
-                        <div className="relative w-16 h-16 rounded-lg overflow-hidden">
-                          <Link
-                            href={`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${product.id}`}
-                          >
-                            <Image
-                              src={product.imageUrl}
-                              alt={product.name}
-                              fill
-                              className="object-cover"
-                            />
-                          </Link>
+                    <div className="flex items-start space-x-4 rtl:space-x-reverse">
+                      {/* Product Image */}
+                      <div className="relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden">
+                        <Link
+                          href={`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${product.id}`}
+                        >
+                          <Image
+                            src={product.imageUrl}
+                            alt={product.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </Link>
+                      </div>
+                      
+                      {/* Product Info */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between mb-2">
+                          <h3 className="font-medium text-foreground text-lg truncate">
+                            {product.name}
+                          </h3>
+                          <div className="font-bold text-primary text-lg ml-2 rtl:ml-0 rtl:mr-2">
+                            {formatCurrency(product.basePrice)}
+                          </div>
                         </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="font-medium text-foreground">
-                          {product.name}
+                        
+                        <div className="mb-3">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                            {product.Category.name}
+                          </span>
                         </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                          {product.Category.name}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="text-sm text-muted-foreground max-w-xs line-clamp-2">
+                        
+                        <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
                           {product.description}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="font-bold text-primary">
-                          {formatCurrency(product.basePrice)}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center justify-center space-x-2">
+                        </p>
+                        
+                        {/* Action Buttons */}
+                        <div className="flex items-center space-x-2 rtl:space-x-reverse">
                           <Link
                             href={`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${product.id}/edit`}
-                            className="inline-flex items-center px-3 py-1.5 text-xs font-medium text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors duration-200 border border-blue-200"
+                            className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors duration-200 border border-blue-200"
                           >
                             {translations.edit}
                           </Link>
-                          <BtnDelete productId={product.id} translations={translations} />
+                          <div className="flex-1">
+                            <BtnDelete productId={product.id} translations={translations} />
+                          </div>
                         </div>
-                      </td>
-                  </tr>
+                      </div>
+                    </div>
+                  </div>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </div>
+            </div>
+          </>
+        
         ) : (
           <div className="text-center py-16">
             <div className="mx-auto max-w-md">
