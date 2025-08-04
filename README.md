@@ -39,43 +39,8 @@ An advanced food ordering system demonstrating **enterprise-level architecture p
 | **Cloudinary** | Media Management | Image upload & optimization |
 | **bcrypt** | Password Security | Salt rounds: 10 |
 
-### **Developer Experience**
-- **ESLint** with strict configuration
-- **TypeScript** strict mode enabled
-- **Prisma Studio** for database management
-- **Hot reload** with Fast Refresh
-### **Responsive Design Patterns**
-- **Mobile-first** approach
-- **Progressive enhancement**
-- **Dark mode** compatible
-- **High contrast** accessibility
-
----
 
 
-
-
-## 🤝 **Contributing Guidelines**
-
-### **Code Standards**
-- **TypeScript**: Strict mode enabled
-- **ESLint**: Extended Next.js configuration
-- **Prettier**: Consistent code formatting
-- **Commit**: Conventional commit messages
-
-
-
-## 📚 **Learning Resources**
-
-This project demonstrates advanced concepts:
-- **Next.js App Router** patterns
-- **Complex state management** with Redux Toolkit
-- **Advanced TypeScript** patterns
-- **Database optimization** with Prisma
-- **Enterprise authentication** flows
-- **Internationalization** best practices
-
----
 
 ## 📄 **License**
 
