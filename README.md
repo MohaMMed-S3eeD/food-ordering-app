@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍕 Enterprise Food Ordering Application
 
-## Getting Started
+> **A production-ready, scalable food ordering platform built with modern full-stack architecture**
 
-First, run the development server:
+<div align="center">
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+[![Next.js](https://img.shields.io/badge/Next.js-15.3.5-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
+[![Prisma](https://img.shields.io/badge/Prisma-6.11.1-2D3748)](https://prisma.io/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791)](https://postgresql.org/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+</div>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 **Project Overview**
 
-## Learn More
+An advanced food ordering system demonstrating **enterprise-level architecture patterns**, complex state management, and robust internationalization. Built for scalability, maintainability, and real-world production deployment.
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📊 **Technical Stack Deep Dive**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### **Frontend Architecture**
+| Technology | Version | Purpose | Implementation |
+|------------|---------|---------|----------------|
+| **Next.js** | 15.3.5 | App Router + SSR | Advanced routing patterns |
+| **TypeScript** | 5.0+ | Type Safety | 100% typed codebase |
+| **Redux Toolkit** | 2.8.2 | State Management | Complex cart logic |
+| **Next-intl** | 4.3.4 | i18n | Dynamic locale switching |
+| **TailwindCSS** | 4.0 | Styling | Custom component system |
+| **Radix UI** | Latest | Headless Components | Accessible UI primitives |
 
-## Deploy on Vercel
+### **Backend & Infrastructure**
+| Technology | Purpose | Implementation Details |
+|------------|---------|----------------------|
+| **NextAuth.js** | Authentication | Custom credentials provider |
+| **Prisma ORM** | Database Layer | Complex relationship modeling |
+| **PostgreSQL** | Primary Database | Optimized schema design |
+| **Cloudinary** | Media Management | Image upload & optimization |
+| **bcrypt** | Password Security | Salt rounds: 10 |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### **Developer Experience**
+- **ESLint** with strict configuration
+- **TypeScript** strict mode enabled
+- **Prisma Studio** for database management
+- **Hot reload** with Fast Refresh
+### **Responsive Design Patterns**
+- **Mobile-first** approach
+- **Progressive enhancement**
+- **Dark mode** compatible
+- **High contrast** accessibility
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+
+
+
+## 🤝 **Contributing Guidelines**
+
+### **Code Standards**
+- **TypeScript**: Strict mode enabled
+- **ESLint**: Extended Next.js configuration
+- **Prettier**: Consistent code formatting
+- **Commit**: Conventional commit messages
+
+
+
+## 📚 **Learning Resources**
+
+This project demonstrates advanced concepts:
+- **Next.js App Router** patterns
+- **Complex state management** with Redux Toolkit
+- **Advanced TypeScript** patterns
+- **Database optimization** with Prisma
+- **Enterprise authentication** flows
+- **Internationalization** best practices
+
+---
+
+## 📄 **License**
+
+MIT License - feel free to use this project for learning and commercial purposes.
+
+---
+
+<div align="center">
+
+**Built with 💻 & ☕ by Mohamed Saeed**
+
+*Demonstrating enterprise-level development practices and modern web architecture*
+
+[🔗 Live Demo](your-demo-link) • [📧 Contact](mailto:your-email) • [💼 LinkedIn](your-linkedin)
+
+</div>
