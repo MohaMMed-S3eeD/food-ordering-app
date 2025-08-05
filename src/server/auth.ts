@@ -52,7 +52,6 @@ export const AuthOptions: NextAuthOptions = {
                 session.user.streetAddress = token.streetAddress as string;
                 session.user.phone = token.phone as string;
             }
-            // return session;
             return {
                 ...session,
                 user: {
@@ -117,7 +116,6 @@ export const AuthOptions: NextAuthOptions = {
 
                     const res = await signIn(credentials, safeLocale);
                     if (res.status === 200 && res.userData) {
-                        // Return only User interface properties and convert null to undefined
                         return {
                             id: res.userData.id,
                             name: res.userData.name,
