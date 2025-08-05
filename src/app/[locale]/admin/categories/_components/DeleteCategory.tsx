@@ -38,7 +38,6 @@ const DeleteCategory = ({
   );
 
   useEffect(() => {
-    console.log(state);
     if (state.message) {
       toast.success(state.message);
     }

@@ -10,7 +10,6 @@ const CategoryCard = ({
   category: Category & { products: Product[] };
 }) => {
   const t = useTranslations("");
-  console.log(category);
   return (
     <div className="group relative p-6 bg-card border border-border rounded-xl shadow-sm hover:shadow-lg transition-all duration-200 hover:-translate-y-1">
       <div className="flex items-center justify-between">

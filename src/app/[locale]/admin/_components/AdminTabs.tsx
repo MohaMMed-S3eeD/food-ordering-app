@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 const AdminTabs = () => {
   const t = useTranslations("admin");
   const pathname = usePathname();
-  console.log(t("tabs.profile"));
   const locale = useLocale();
   const tabs = [
     {
