@@ -33,10 +33,7 @@ export const updateProfile = async (isAdmin: boolean, prevState: unknown, formDa
         ...Object.fromEntries(formData.entries())
     });
 
-    console.log("Form Data Entries:", Object.fromEntries(formData.entries()));
-
     if (!validatedFields.success) {
-        console.error("Validation Error:", validatedFields.error);
         return {
             error: validatedFields.error.flatten().fieldErrors,
             status: "error",
@@ -47,21 +44,14 @@ export const updateProfile = async (isAdmin: boolean, prevState: unknown, formDa
     const data = validatedFields.data;
     const imageFile = data.image as File;
 
-    console.log("Image File Info:", {
-        name: imageFile?.name,
-        size: imageFile?.size,
-        type: imageFile?.type,
-        hasFile: Boolean(imageFile?.size)
-    });
+
 
     let imageUrl: string | undefined;
 
     // تحقق من وجود ملف صورة جديد
     if (imageFile && imageFile.size > 0) {
         try {
-            console.log("Attempting to upload image...");
             imageUrl = await uploadImageToCloudinary(imageFile);
-            console.log("Image uploaded successfully:", imageUrl);
         } catch (error) {
             console.error("Error uploading image:", error);
             return {
@@ -119,7 +109,6 @@ export const updateProfile = async (isAdmin: boolean, prevState: unknown, formDa
         }
 
         revalidatePath("/profile");
-        console.log("Profile updated successfully");
 
     } catch (error) {
         console.error("Database Error:", error);
@@ -159,13 +148,9 @@ const uploadImageToCloudinary = async (imageFile: File): Promise<string> => {
             throw new Error("File size must be less than 5MB");
         }
 
-        console.log("Converting file to base64...");
-
         // تحويل الملف إلى Buffer ثم Base64
         const fileBuffer = await imageFile.arrayBuffer();
         const base64File = Buffer.from(fileBuffer).toString("base64");
-
-        console.log("Uploading to Cloudinary...");
 
         // رفع الصورة إلى Cloudinary
         const uploadResponse = await cloudinary.uploader.upload(

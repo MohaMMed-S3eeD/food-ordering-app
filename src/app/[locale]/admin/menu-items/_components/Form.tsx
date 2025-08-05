@@ -49,10 +49,7 @@ const Form = ({
     slug: `${Pages.MENU_ITEMS}/new`,
     translations: t,
   });
-  useEffect(() => {
-    console.log(idCategory);
-  }, [idCategory]);
-  const formData = new FormData();
+   const formData = new FormData();
   Object.entries(product ?? {}).forEach(([key, value]) => {
     if (value !== null && value !== undefined && key !== "image") {
       formData.append(key, value.toString());

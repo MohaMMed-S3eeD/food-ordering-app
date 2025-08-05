@@ -14,7 +14,7 @@ const page = async ({ params }: { params: Promise<{ userId: string }> }) => {
     return <div>User not found</div>;
   }
   const session = await getServerSession();
-  console.log(session);
+  
   const sessionUser = {
     user: {
       ...user,

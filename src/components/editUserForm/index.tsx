@@ -28,8 +28,6 @@ const EditUserForm = ({
       : session?.user?.name === "AdminView" &&
         session?.user?.role === UserRole.ADMIN;
 
-  console.log(adminViewr);
-  console.log(isViewOnlyAdmin);
   const formData = new FormData();
   Object.entries(session?.user ?? {}).forEach(([key, value]) => {
     if (value !== null && value !== undefined && key !== "image") {
